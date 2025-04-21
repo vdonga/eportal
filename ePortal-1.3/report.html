@@ -1,0 +1,1903 @@
+<html>
+    <head>
+        <!-- Required meta tags --> 
+        <meta charset='utf-8'>  
+        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'> 
+ 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+            <style>
+            /***************************** 
+               CSS for Revenera Reports 
+            *****************************/
+            
+            .header {
+                min-height: 58px;
+                background-color: #323E48;
+                border-bottom: 4px solid #1ED65F;
+                margin-bottom: 18px;
+                overflow: auto;
+            }
+            
+            .logo {
+                float: left;
+                padding-left: 24px;
+                padding-top: 13px;
+                padding-right: 48px;
+                padding-bottom: 0;
+            }
+            
+            .report-title {
+                float: right !important;
+                padding-top: 18px;
+                font-size: 22px;
+                color: #1ED65F;
+                text-transform: uppercase;
+                float: left;
+                padding-bottom: 16px;
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+            
+            .report-footer {
+                margin-top: 20px !important;
+                font-size: 13px;
+                background-color: #ebebeb;
+                padding: 18px;
+                height: 65px;
+            }
+            
+            
+            .hierarchy {
+                font-size: 12px;
+              }
+            
+            h6.gray {
+                font-size: 14px;
+                color: #323E48;
+              }
+            
+            hr.large {
+              border: 10px solid #1ED65F;
+              border-radius: 5px;}
+              
+            hr.medium {
+              border: 6px solid #1ED65F;
+              border-radius: 3px;}
+              
+            hr.small {
+              border: 2px solid #1ED65F;
+              border-radius: 1px;}
+            
+            hr.small-gray {
+                border: 2px solid #323E48;
+                border-radius: 1px;}
+            
+            /***************************** 
+                Table specific styling 
+            *****************************/
+            
+            .table { 
+                border-radius: 5px; 
+                width: 50%;  
+                margin: 0px auto; 
+                float: none;
+            }
+            
+            th {
+                background-color: #323E48;
+                color: white;
+                font-size: 12px;
+                font-weight: bold;
+            } 
+            
+            td {
+                font-size: 12px;
+                font-weight: normal;
+            } 
+            
+            .page-item.active .page-link {
+                color: #323E48 !important;
+                background-color: #1ED65F !important;
+                border-color: #323E48 !important; 
+            }
+            
+            .page-link {
+                color: #323E48 !important;
+                background-color: #fff !important;
+                border: 1px solid #323E48 !important; 
+            }
+            
+            .page-link:hover {
+                color: #1ED65F !important;
+                background-color: #323E48 !important;
+                border-color: #323E48 !important; 
+            }
+            
+            /*****************************
+                Indicator dots and colors
+            ******************************/
+            
+            .dot { 
+                display: inline-block; 
+                border: 1px solid #626262; 
+                border-radius: 6px; 
+                width: 10px; height: 10px; 
+                vertical-align: middle;
+                margin-right: 8px; margin-top: -2px; 
+            }
+            
+            .dot-green { background-color: #008000; }
+            .dot-yellow { background-color: #FFFF00; }
+            .dot-red { background-color: #FF0000; }
+            .dot-blue { background-color: #00008B; }
+            .dot-gray { background-color: lightgrey; }
+            .dot-blank { background-color: #FFFFFF; }
+            
+            .dot-copyright { background-color: #0099FF; }
+            .dot-license { background-color: #33CC33; }
+            .dot-emailURL { background-color: #FF02F9; }
+            .dot-searchTerm { background-color: #02FFFF; }
+            .dot-exactMatch { background-color: #FF0000; }
+            .dot-sourceMatch { background-color: #FFFF00; }
+            
+            
+            /***************************** 
+                Button specific styling 
+            *****************************/
+            
+            .btn-revenera-green
+            {
+                background-color: #1ED65F
+            }
+            
+            .btn-revenera-green:hover 
+            { 
+                background-color: #323E48 
+            }
+            
+            .btn-revenera-gray
+            {
+                background-color: #323E48;
+                color: #FFFFFF;
+            }
+            
+            .btn-revenera-gray:active:focus,
+            .btn-revenera-gray:hover 
+            { 
+                background-color: #1ED65F;
+                border-color: #1ED65F 
+            }
+            
+            .btn-vuln
+            {
+                font-size: 12px;
+                font-weight: bold;
+                color:#000;
+                border-color: #000;
+                width: 40px !important;
+                text-align: center !important;
+                padding: 0;
+                cursor: default !important;
+            }
+            
+            .btn-menu
+            {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            
+            /***************************** 
+                Priority buttons 
+            *****************************/
+            .btn-empty
+            {
+                width: 40px !important;
+            }
+            
+            .btn-critical
+            {
+                background-color: #400000;
+                color:#FFF !important;
+            
+            }
+            .btn-high
+            {
+                background-color: #C00000;
+                color:#FFF !important;
+            }
+            
+            .btn-medium
+            {
+                background-color: #FFA500;
+            }
+            
+            .btn-low
+            {
+                background-color: #FFFF00;
+            }
+            
+            .btn-none
+            {
+                background-color: #D3D3D3;
+            }
+            
+            .btn-no-vulns
+            {
+                background-color: #FFFFFF;
+                width: 212px !important;
+            }
+            
+            /***************************** 
+                License buttons 
+            *****************************/
+            
+            .btn-license
+            {
+                font-size: 12px;
+                font-weight: bold;
+                color:#000;
+                border-color: #000;
+                width: 40px !important;
+                text-align: center !important;
+                padding: 0;
+                cursor: default !important;
+            }
+            
+            .btn-P1
+            {
+                background-color: #C00000;
+                color:#FFF !important;
+            }
+            
+            .btn-P2
+            {
+                background-color: #FFFF00;
+            }
+            
+            .btn-P3
+            {
+                background-color: #008000;
+            }
+            .btn-P4
+            {
+                background-color: #00008B;
+            }
+            
+            /***************************** 
+                datatables specific styling 
+            *****************************/
+            .pagination .page-item.active .page-link
+            {
+                 background-color: #1ED65F; 
+            }
+            
+            /*  Remove the folder icon from the jstree for
+                project hierarchy view */
+            .jstree li > a > .jstree-icon 
+            {  
+                display:none !important; 
+            }         </style>
+    	<link rel='icon' type='image/png' href='data:image/png;base64, AAABAAQAMDAAAAEAIABoJgAARgAAACAgAAABACAAKBEAAK4mAAAYGAAAAQAgALgJAADWNwAAEBAAAAEAIABoBAAAjkEAACgAAAAwAAAAYAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASEExKUk+M7JJPzP/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0k/M/9JPjOySEExKQAAAABHPy0lST4y6EtAM/9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9LQDP/ST4y6Ec/LSVIPTK1S0Az/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/S0Az/0g9MrVJPzP/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0k/M/9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g7Mf9IOzL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDYw/0p5Rv9OdTn/Rzcx/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IOzH/SEY3/0nUc/9ZxDL/SUMx/0g7Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9INC//R6Vk/0jyhP9e3Sr/VpYp/0c3Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g0Lf9If1L/Ru+K/0ntgf9d2Cv/X9cc/1B1L/9HNjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDQt/0htSP9G5oX/RvGK/0ntgf9d2Cv/X9gc/17QIP9OZjD/RzYy/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IMy3/SG5J/0big/9G8Yr/Ru6K/0ntgf9d2Cv/X9Yc/1/ZHf9dzCH/Tmcw/0c2Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDsx/0g2Lv9IglP/RueF/0bxiv9G7on/Ru6K/0ntgf9d2Cv/X9Yc/1/WHv9f2R3/XtAg/1B4L/9HNzL/SDsy/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g9Mv9INC//SEk3/0epZv9G8In/RvGJ/0buif9G7on/Ru6K/0ntgf9d2Cv/X9Yc/1/WHv9f1h7/X9ge/1/YHv9Wmir/SUcy/0c2Mv9IPTL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IOzH/SDQv/0hAM/9IglP/Rtd8/0b1i/9G74n/Ru6J/0buif9G7on/Ru6K/0ntgf9d2Cv/X9Yc/1/WHv9f1h7/X9Ye/1/XHv9g3B3/XMEj/1B4L/9IPzL/RzYy/0g7Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD0y/0g7Mf9IODD/SDQv/0g3MP9IUTr/SIpX/0bOef9G8or/RvGK/0buif9G7on/Ru6J/0buif9G7on/Ru6K/0ntgf9d2Cv/X9Yc/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9kd/2DZHf9buyT/UX8t/0tOMf9HODL/RzYy/0c5Mv9IOzL/SD0y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD8z/0g+Mv9IPjL/SEM1/0hSPP9Iakf/SI5Z/0e7b/9G4oL/RvSL/0byiv9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6K/0ntgf9d2Cv/X9Yc/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9g2R3/YNsd/13LIf9Yqif/UoMu/05jMP9LTzH/SUMy/0g+Mv9IPjL/SD8y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IOzH/SFE6/0fBcv9Gz3n/RtZ9/0bjg/9G7on/RvWL/0b0i/9G8In/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6K/0nsgf9d1yz/X9Yc/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/YHv9g2x3/YNsd/1/WHv9dzCH/XMEj/1u8JP9Yqyf/SUky/0g9Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDcw/0icX/9G+I3/RvGK/0bwif9G74n/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru+K/0jmgP9d0in/X9cc/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f2B7/X9ge/2DeHP9Shiz/Rzgy/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD0y/0g+Mv9HvXD/RvWM/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/RvGK/0jafP9cxib/X9ge/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/YNwd/1ilKP9IOjL/SD0y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g6Mf9ITDn/RtF6/0b0i/9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/RvKK/0fHdv9asyT/YNkd/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9g3B3/Wrcl/0lGMv9IOzL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IODD/SFY+/0bVff9G9Iv/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/RvWL/0esa/9XmyX/YNsd/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/2DcHf9bvCT/S04x/0g5Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDcw/0hVPf9HzXj/RvWM/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/RvWM/0eKW/9SfSn/YNwd/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1x7/YNwd/1q1Jv9LTDL/Rzky/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g4MP9ISDf/R7Rr/0bziv9G8Yn/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0dlR/9NXS7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/YHv9g2R3/Vp4p/0lDMv9IOjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IOjH/SDkw/0iIVf9G34H/RvWM/0bwif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G8Yr/Rth+/0hFNv9JQjH/XMIj/1/YHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f2B7/YNwd/13GIv9Qdy//Rzky/0g7Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD0y/0g0L/9IUjz/R6Zk/0bmhP9G9Yz/RvGK/0buif9G7on/Ru6J/0buif9G9Yz/R6pm/0g0L/9HNjL/Vpsq/2DcHf9f1h7/X9Ye/1/WHv9f1h7/X9kd/2DcHf9dzCH/VZQr/0tLMv9HNzL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IOjH/SDYu/0hXPv9HnF//RtR8/0bvif9G9Yz/RvSL/0bxiv9G74r/SGtI/0g4MP9HOTL/TmUw/1/XHv9f2R3/YNsd/2DcHf9f1h7/W74k/1SMLP9LUTH/Rzcy/0g7Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g6Mf9INC3/SEI1/0hsSP9Iml7/R75w/0bafv9HvnH/SD0y/0g+Mv9IPjL/SD4y/1mtJ/9cxCP/WKsn/1SLLP9NYzD/SEEy/0c2Mv9IOzL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD0y/0g4MP9INC3/SDgw/0hFNv9IRjb/SD0x/0g+Mv9IPjL/SD0y/0lFMv9JQzL/Rzky/0c2Mv9HOTL/SD0y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g9Mv9IPTH/SD4y/0g+Mv9IPjL/SD4y/0g9Mv9IPTL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9JPzP/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0k/M/9IPTK1S0Az/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/S0Az/0g9MrVHPy0lST4y6EtAM/9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9LQDP/ST4y6Ec/LSUAAAAASEExKUk+M7JJPzP/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0k/M/9JPjOySEExKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoAAAAIAAAAEAAAAABACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaGcAA0k9MnlIPjL9SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL9ST0yeWhnAANJPTJ5S0A1/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9LQDX/ST0yeUg+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPTL/SD0y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD0y/0hBMv9IQTP/SD0y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9INC//SpRT/1COOf9HNjH/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDcu/0hhRP9J5X3/XNIu/01bMP9HODL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g4MP9ITjn/RtF7/0nxg/9e3Cv/W7wi/0lLMv9HOTL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9INi7/SFI8/0fLd/9G9Iz/Se2B/13YK/9g2hv/Wrcl/0tPMf9HNzL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IOTD/SDYu/0hxSv9G2X3/RvSL/0buiv9J7YH/Xdgr/1/WHP9g2x3/XMMj/05pMP9HNzL/SDoy/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPTL/SDsx/0g5MP9INC//SDgw/0hdQv9Hrmj/Ru2I/0bxiv9G7on/Ru6K/0ntgf9d2Cv/X9Yc/1/WHv9f2R3/X9Qf/1aeKf9MWDH/Rzky/0c2Mv9IOjL/SD0y/0g9Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SEM1/0hDNf9ITDn/SGFE/0iJVv9HvXD/RuiG/0b0i/9G74n/Ru6J/0buif9G7or/Se2B/13YK/9f1hz/X9Ye/1/WHv9f1x7/YNsd/17RIP9Yqyf/UX4u/01cMf9JSjL/SUIy/0lCMv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g3MP9IhVT/Rtt//0bfgf9G64f/RvSL/0bzi/9G74r/Ru6J/0buif9G7on/Ru6J/0buiv9J64H/Xdcs/1/WHP9f1h7/X9Ye/1/WHv9f1h7/X9ce/2DaHf9g2x3/X9Qf/13JIv9cxiL/UHYv/0c4Mv9IPjL/SD4y/0g+Mv9IPjL/SD0x/0hGNv9Hy3f/RvaM/0bvif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G7on/RvCJ/0jif/9czij/X9cc/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/YN0c/1qzJv9IQjL/SD0y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDkw/0hVPf9G2H7/RvSL/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0buif9G8Yr/Rs95/1u8Jv9f2B7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9f1h7/X9Ye/2DbHf9bvyT/S08x/0g6Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDcw/0haP/9G03v/RvWM/0buif9G7on/Ru6J/0buif9G7on/Ru6J/0b0i/9HsW3/V58k/2DbHf9f1h7/X9Ye/1/WHv9f1h7/X9Ye/1/WHv9g3B3/W7wk/0tTMf9HOTL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDgw/0hOOf9HuG3/RvKK/0byiv9G7on/Ru6J/0buif9G7on/RvWL/0eIWP9Seyn/YNwd/1/WHv9f1h7/X9Ye/1/WHv9g2R3/X9ge/1ekKP9JSTL/Rzky/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDox/0g6Mf9IgFL/RtF7/0byiv9G9Iv/RvGJ/0bwif9G6Yb/SFlA/0xUL/9e0SD/X9ge/1/YHv9g2x3/YNkd/1u8JP9Qcy//SDoy/0g7Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g2Lv9IQjX/SHxQ/0e4bf9G3H//RvGK/0e/cf9IOTD/Rzoy/1mtJ/9f2B7/XMYi/1ilKP9PcS//SEEy/0c3Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g9Mv9INy7/SDcu/0hJN/9IZ0X/SFY+/0g7Mf9IOzL/S1Mx/01gMf9JRzL/Rzgy/0c4Mv9IPTL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD0x/0g5MP9IOjH/SD4y/0g+Mv9IOzL/SDky/0g9Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/ST0yeUtANf9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/S0A1/0k9MnloZwADST0yeUg+Mv1IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv1JPTJ5aGcAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoAAAAGAAAADAAAAABACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz8qEEg/MrVJPzP/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/ST8z/0g/MrU/PyoQSD8ytktAM/9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0tAM/9IPzK2ST8z/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9JPzP/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPTL/SD0y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g9Mv9IRzT/SEc0/0g9Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g0L/9KpFr/Upw4/0c2Mf9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDMt/0d8Uf9J7ID/Xdgr/1ByLv9HNDL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g7Mf9INC//SH1Q/0bohv9J74L/Xdor/17QHv9Qcy//RzYy/0g7Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD0y/0g7Mf9IODD/SDQt/0hOOf9HpGP/Ru6J/0bxiv9J7YH/Xdgr/1/YHP9f1R//VZYq/0tLMv9HNjL/Rzgy/0g7Mv9IPTL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IQjX/SEg3/0hSPP9IcUr/R6Rj/0begP9G9Iv/Ru+J/0buiv9J7YH/Xdgr/1/WHP9f1x7/YNsd/13HIv9Vlir/Tmkw/0tPMf9JRzL/SEIy/0g+Mv9IPjL/SD4y/0g6Mf9IXkH/RtV9/0blhP9G8In/RvWL/0bxif9G7on/Ru6J/0buiv9J64H/XdYs/1/WHP9f1h7/X9Ye/1/YHv9g3B3/X9ce/17OIf9bvyT/TFcx/0g6Mv9IPjL/SD4y/0g+Mv9IODD/SJhd/0b1i/9G8In/Ru6J/0buif9G7on/Ru6J/0bwif9I3n3/XMsn/1/XHv9f1h7/X9Ye/1/WHv9f1h7/X9ce/2DbHf9Shy3/Rzky/0g+Mv9IPjL/SD4y/0g+Mv9IPTL/SDkw/0edYP9G8Yr/RvGK/0buif9G7on/Ru6J/0byiv9HxHT/WrAl/2DaHf9f1h7/X9Ye/1/WHv9f2B7/X9ge/1SMLP9HOTL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD0y/0g4MP9IglP/Rt6A/0b1jP9G8Yr/Ru6J/0b1jP9HmmL/VYon/2DcHf9f1h7/X9ge/2DcHf9dxiL/UHYv/0c4Mv9IPTL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9INi7/SFE6/0idYP9G1n3/Ru6J/0bwif9HZEb/TV0u/1/YHv9f1h7/XMAk/1SOK/9LTDL/Rzcy/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDsx/0g0L/9IRTb/SGlH/0h6T/9IQDP/SEAy/09xL/9NYjD/SUMy/0c3Mv9IOzL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPTL/SDgw/0g3Lv9IPjL/SD4y/0c4Mv9IOTL/SD0y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/ST8z/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9JPzP/SD8ytktAM/9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0tAM/9IPzK2Pz8qEEg/MrVJPzP/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/ST8z/0g/MrU/PyoQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAABAAAAAgAAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEk7NS1JPzPmST8z/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9JPzP/ST8z5kk7NS1IPjLoST8z/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0k/M/9IPjLoST8y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/ST8y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IOzH/SDsy/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IOjH/SU83/0lPNv9IOzL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IOzH/SDox/0q3Zf9WrDb/SDox/0g7Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD0x/0g6Mf9INC//SEY2/0euaf9J8IP/Xtwr/1edKf9JRTL/RzYy/0g6Mv9IPTL/SD4y/0g+Mv9IPjL/SEAz/0hMOf9IW0D/SItX/0bSe/9G84z/Se2B/13ZK/9g2hv/W74k/1GALv9MVzH/SUoy/0hAMv9IPjL/SD0y/0hCNf9HvXD/Ru6J/0bzi/9G8Yr/Ru6K/0nqgf9d1Sr/X9Yc/1/YHv9g2h3/X9Uf/1iqJ/9IQTL/SD0y/0g+Mv9IOTD/SGBD/0bZff9G9Yz/Ru+J/0bxiv9I1nr/W8Im/1/YHv9f1x7/YNwd/1zCI/9MWTH/SDoy/0g+Mv9IPjL/SD4y/0g4MP9IUzz/R7Nr/0bqhv9G+o7/R6xq/1ebJf9h4Bv/XtEg/1eiKf9LTzH/Rzky/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDox/0g5MP9IXkH/SJBZ/0hgRP9NWS7/UoQu/0xZMf9HOTL/SDsy/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SDox/0g0L/9IOjH/SDsy/0c3Mv9IOjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9JPzL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9JPzL/SD4y6Ek/M/9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9JPzP/SD4y6Ek7NS1JPzPmST8z/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9IPjL/SD4y/0g+Mv9JPzP/ST8z5kk7NS0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'>
+        <title>Project Vulnerability Report</title>
+    </head>
+<body>
+<div class="container-fluid">
+<!-- BEGIN HEADER -->
+<div class='header'>
+  <div class='logo'>
+    <img src='data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJiIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDkuNTUgNDYuNzMiPjxkZWZzPjxzdHlsZT4uZHtmaWxsOiNmZmY7fS5le2ZpbGw6Izg2ZWI0Njt9LmZ7ZmlsbDojMWVkMzVmO30uZ3tmaWxsOm5vbmU7c3Ryb2tlOiNmZmY7c3Ryb2tlLW1pdGVybGltaXQ6MTA7c3Ryb2tlLXdpZHRoOjFweDt9PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImMiPjxnPjxwYXRoIGNsYXNzPSJkIiBkPSJtMTkwLjMxLDI4LjU2aDEuOTZjMCwzLjEzLDIuMjQsNC43OSw2LjQ0LDQuNzlzNi4wNi0xLjU1LDYuMDYtNC42MS0xLjc2LTQuMzctNi42MS01LjAzYy01LjM3LS42OS03LjQtMi40MS03LjQtNi4yMywwLTQuMjQsMi44Mi02LjU0LDcuOTItNi41NHM3LjY4LDIuMiw3LjY4LDYuNDRoLTEuOTZjMC0zLjEtMS44Ni00LjYyLTUuNzItNC42MnMtNS45OSwxLjU1LTUuOTksNC40OCwxLjY5LDQuMDYsNi4yNyw0LjY1YzUuNjguNzYsNy43OCwyLjU4LDcuNzgsNi42OCwwLDQuMzctMi43NSw2LjYxLTguMDksNi42MXMtOC4zMy0yLjMxLTguMzMtNi42MVoiLz48cGF0aCBjbGFzcz0iZCIgZD0ibTIxMC41NiwyNi4xMnYtNi4xM2MwLTUuOTksMi45Ni05LjA2LDguNjEtOS4wNiw1LjI0LDAsOC4xMywyLjYyLDguMzcsNy42MWgtMS45M2MtLjI0LTMuODYtMi4zOC01Ljc5LTYuNDQtNS43OS00LjQ4LDAtNi42MSwyLjM4LTYuNjEsNy4zN3Y1Ljg1YzAsNC45OSwyLjE0LDcuMzcsNi42NSw3LjM3LDMuOTYsMCw2LjE3LTEuODYsNi40MS01Ljc1aDEuOTNjLS4yNCw0Ljk2LTMuMSw3LjU4LTguMzMsNy41OC01LjY4LDAtOC42NC0zLjA2LTguNjQtOS4wNloiLz48cGF0aCBjbGFzcz0iZCIgZD0ibTI0NC45MywyOC4xNWgtMTAuNzFsLTIuNTEsNi42MWgtMi4wM2w4LjkyLTIzLjQyaDIuMDNsOC45MiwyMy40MmgtMi4xbC0yLjUxLTYuNjFabS0xMC4wMi0xLjgzaDkuMzNsLTQuNjUtMTIuNTQtNC42OCwxMi41NFoiLz48L2c+PGc+PHBhdGggY2xhc3M9ImQiIGQ9Im02LjgsMTYuN2MtLjcsMC0xLjMyLjA1LTEuODYuMTYtLjUzLjExLS45OC4yMy0xLjMzLjM2LS4zNS4xMy0uNjMuMjctLjg0LjQtLjIxLjEzLS4zMy4yMi0uMzguMjd2MTUuMjRIMHYtMTYuMzNjLjA3LS4wNS4yNi0uMTkuNTYtLjQyLjMtLjIzLjc0LS40NywxLjMxLS43My41Ny0uMjUsMS4yNi0uNDgsMi4wNy0uNjkuODEtLjIxLDEuNzUtLjMxLDIuODItLjMxLDEuMjQsMCwyLjE3LjA4LDIuOC4yNC42My4xNiwxLjA4LjMzLDEuMzUuNTMuMzkuMjQuNTguNTguNTgsMS4wMiwwLC4yNy0uMDYuNTEtLjE4LjczLS4xMi4yMi0uMjQuMzgtLjM2LjQ3LS4yOS0uMTktLjc4LS40LTEuNDctLjYyLS42OS0uMjItMS41OC0uMzMtMi42Ny0uMzNaIi8+PHBhdGggY2xhc3M9ImQiIGQ9Im0xNS4yLDI1LjU0Yy4yNCwyLjA2Ljk0LDMuNTcsMi4wOSw0LjUzLDEuMTUuOTYsMi43NSwxLjQ0LDQuNzgsMS40NCwxLjE5LDAsMi4yNi0uMTYsMy4yLS40OS45NS0uMzMsMS42NC0uNjIsMi4wNy0uODlsLjk4LDEuNzhjLS4xOS4xMi0uNDkuMjktLjg5LjQ5LS40LjIxLS44OS40LTEuNDYuNTgtLjU3LjE4LTEuMjEuMzQtMS45My40Ny0uNzIuMTMtMS40OS4yLTIuMzEuMi0xLjI5LDAtMi40OS0uMTktMy42LS41OC0xLjEyLS4zOS0yLjA5LS45Ni0yLjkxLTEuNzMtLjgyLS43Ni0xLjQ4LTEuNzEtMS45Ni0yLjg0LS40OS0xLjEzLS43My0yLjQ0LS43My0zLjk1cy4yNC0yLjc5LjcxLTRjLjQ3LTEuMjEsMS4xMi0yLjI2LDEuOTUtMy4xMy44Mi0uODcsMS44MS0xLjU1LDIuOTUtMi4wNCwxLjE0LS40OCwyLjM2LS43MywzLjY3LS43MywyLjQ3LDAsNC4zNS41OSw1LjY0LDEuNzgsMS4yOSwxLjE5LDEuOTMsMi44NSwxLjkzLDQuOTgsMCwxLjMxLS4zNSwyLjMyLTEuMDQsMy4wNC0uNjkuNzItMS44MSwxLjA3LTMuMzYsMS4wN2gtOS43OVptOC44LTEuOTNjLjk3LDAsMS43Mi0uMTYsMi4yNC0uNDcuNTItLjMxLjc4LS45OC43OC0yLDAtLjU4LS4wOS0xLjE1LS4yNy0xLjY5LS4xOC0uNTUtLjQ3LTEuMDItLjg3LTEuNDQtLjQtLjQxLS45My0uNzUtMS42LTEtLjY3LS4yNS0xLjQ3LS4zOC0yLjQyLS4zOC0xLjA3LDAtMi4wMS4yMS0yLjg0LjYyLS44Mi40MS0xLjUyLjk1LTIuMDcsMS42LS41Ni42NS0uOTksMS40LTEuMjksMi4yNC0uMy44NC0uNDcsMS42OC0uNDksMi41M2g4Ljg0WiIvPjxwYXRoIGNsYXNzPSJkIiBkPSJtMzIuMDUsMTguNDhjLS4xMi0uMjctLjI3LS42Mi0uNDQtMS4wNi0uMTctLjQ0LS4yNS0uNzktLjI1LTEuMDUsMC0uMzQuMS0uNjIuMjktLjg1LjE5LS4yMy41MS0uMzUuOTUtLjM1LjI3LDAsLjQ4LjAyLjY0LjA3LjE2LjA1LjI2LjA5LjMxLjExLjUzLDEuNDYsMS4xMiwyLjkyLDEuNzUsNC4zOC42MywxLjQ3LDEuMjcsMi44OCwxLjkxLDQuMjQuNjQsMS4zNiwxLjI1LDIuNjQsMS44NCwzLjg0LjU4LDEuMiwxLjEsMi4yNywxLjU2LDMuMjIuNDYtLjg3Ljk5LTEuOTQsMS41OC0zLjIuNTktMS4yNiwxLjItMi41OSwxLjgyLTMuOTguNjItMS4zOSwxLjIyLTIuNzgsMS44LTQuMTcuNTgtMS4zOCwxLjA5LTIuNjIsMS41My0zLjcxLjA3LS4xNy4xOS0uMzUuMzYtLjUzLjE3LS4xOC40Ni0uMjcuODctLjI3LjM2LDAsLjY2LjA4Ljg5LjI0LjIzLjE2LjM3LjI2LjQyLjMxLS4xNy41OC0uNDMsMS4zMS0uNzgsMi4xOC0uMzUuODctLjc1LDEuODMtMS4yLDIuODctLjQ1LDEuMDQtLjk0LDIuMTMtMS40NywzLjI3LS41MywxLjE0LTEuMDcsMi4yNi0xLjYsMy4zNS0uNTMsMS4wOS0xLjA1LDIuMTMtMS41NiwzLjEzLS41MS45OS0uOTcsMS44Ny0xLjM4LDIuNjJoLTIuNjZjLS41Ni0xLjAyLTEuMTktMi4yMS0xLjg5LTMuNTgtLjctMS4zNy0xLjM5LTIuNzUtMi4wNy00LjEzLS42OC0xLjM4LTEuMy0yLjY5LTEuODctMy45My0uNTctMS4yNC0xLjAxLTIuMjQtMS4zMy0zLjAyWiIvPjxwYXRoIGNsYXNzPSJkIiBkPSJtNTMuNzksMjUuNTRjLjI0LDIuMDYuOTQsMy41NywyLjA5LDQuNTMsMS4xNS45NiwyLjc1LDEuNDQsNC43OCwxLjQ0LDEuMTksMCwyLjI2LS4xNiwzLjItLjQ5czEuNjQtLjYyLDIuMDctLjg5bC45OCwxLjc4Yy0uMTkuMTItLjQ5LjI5LS44OS40OS0uNC4yMS0uODkuNC0xLjQ2LjU4LS41Ny4xOC0xLjIxLjM0LTEuOTMuNDctLjcyLjEzLTEuNDkuMi0yLjMxLjItMS4yOSwwLTIuNDktLjE5LTMuNi0uNTgtMS4xMi0uMzktMi4wOS0uOTYtMi45MS0xLjczLS44Mi0uNzYtMS40OC0xLjcxLTEuOTYtMi44NC0uNDktMS4xMy0uNzMtMi40NC0uNzMtMy45NXMuMjQtMi43OS43MS00Yy40Ny0xLjIxLDEuMTItMi4yNiwxLjk1LTMuMTMuODItLjg3LDEuODEtMS41NSwyLjk1LTIuMDQsMS4xNC0uNDgsMi4zNi0uNzMsMy42Ny0uNzMsMi40NywwLDQuMzUuNTksNS42NCwxLjc4LDEuMjksMS4xOSwxLjkzLDIuODUsMS45Myw0Ljk4LDAsMS4zMS0uMzUsMi4zMi0xLjA0LDMuMDQtLjY5LjcyLTEuODEsMS4wNy0zLjM2LDEuMDdoLTkuNzlabTguOC0xLjkzYy45NywwLDEuNzItLjE2LDIuMjQtLjQ3LjUyLS4zMS43OC0uOTguNzgtMiwwLS41OC0uMDktMS4xNS0uMjctMS42OS0uMTgtLjU1LS40Ny0xLjAyLS44Ny0xLjQ0LS40LS40MS0uOTMtLjc1LTEuNi0xLS42Ny0uMjUtMS40Ny0uMzgtMi40Mi0uMzgtMS4wNywwLTIuMDEuMjEtMi44NC42Mi0uODIuNDEtMS41Mi45NS0yLjA3LDEuNi0uNTYuNjUtLjk5LDEuNC0xLjI5LDIuMjQtLjMuODQtLjQ3LDEuNjgtLjQ5LDIuNTNoOC44NFoiLz48cGF0aCBjbGFzcz0iZCIgZD0ibTg2LDMzLjE0di0xMC4wNGMwLTIuMDQtLjUtMy42MS0xLjUxLTQuNzEtMS4wMS0xLjEtMi42NC0xLjY2LTQuODktMS42Ni0uNzMsMC0xLjM5LjA0LTEuOTguMTMtLjU5LjA5LTEuMTEuMTgtMS41NS4yOS0uNDQuMTEtLjc4LjIyLTEuMDQuMzMtLjI1LjExLS40Mi4xOC0uNDkuMnYxNS40NmgtMi40di0xNy4wNmMuMDctLjAyLjMxLS4xMS43MS0uMjcuNC0uMTYuOTQtLjMyLDEuNjItLjQ5LjY4LS4xNywxLjQ4LS4zMiwyLjQtLjQ1LjkyLS4xMywxLjk0LS4yLDMuMDYtLjIsMS4zMywwLDIuNTIuMTgsMy41Ny41NSwxLjA0LjM2LDEuOTMuODcsMi42NiwxLjUzLjczLjY1LDEuMjksMS40MywxLjY3LDIuMzMuMzkuOS41OCwxLjg4LjU4LDIuOTV2MTEuMTNoLTIuNFoiLz48cGF0aCBjbGFzcz0iZCIgZD0ibTk1LjMsMjUuNTRjLjI0LDIuMDYuOTQsMy41NywyLjA5LDQuNTMsMS4xNS45NiwyLjc1LDEuNDQsNC43OCwxLjQ0LDEuMTksMCwyLjI2LS4xNiwzLjItLjQ5czEuNjQtLjYyLDIuMDctLjg5bC45OCwxLjc4Yy0uMTkuMTItLjQ5LjI5LS44OS40OS0uNC4yMS0uODkuNC0xLjQ2LjU4LS41Ny4xOC0xLjIxLjM0LTEuOTMuNDctLjcyLjEzLTEuNDkuMi0yLjMxLjItMS4yOSwwLTIuNDktLjE5LTMuNi0uNTgtMS4xMi0uMzktMi4wOS0uOTYtMi45MS0xLjczLS44Mi0uNzYtMS40OC0xLjcxLTEuOTYtMi44NC0uNDktMS4xMy0uNzMtMi40NC0uNzMtMy45NXMuMjQtMi43OS43MS00Yy40Ny0xLjIxLDEuMTItMi4yNiwxLjk1LTMuMTMuODItLjg3LDEuODEtMS41NSwyLjk1LTIuMDQsMS4xNC0uNDgsMi4zNi0uNzMsMy42Ny0uNzMsMi40NywwLDQuMzUuNTksNS42NCwxLjc4LDEuMjksMS4xOSwxLjkzLDIuODUsMS45Myw0Ljk4LDAsMS4zMS0uMzUsMi4zMi0xLjA0LDMuMDQtLjY5LjcyLTEuODEsMS4wNy0zLjM2LDEuMDdoLTkuNzlabTguOC0xLjkzYy45NywwLDEuNzItLjE2LDIuMjQtLjQ3LjUyLS4zMS43OC0uOTguNzgtMiwwLS41OC0uMDktMS4xNS0uMjctMS42OS0uMTgtLjU1LS40Ny0xLjAyLS44Ny0xLjQ0LS40LS40MS0uOTMtLjc1LTEuNi0xLS42Ny0uMjUtMS40Ny0uMzgtMi40Mi0uMzgtMS4wNywwLTIuMDEuMjEtMi44NC42Mi0uODIuNDEtMS41Mi45NS0yLjA3LDEuNi0uNTYuNjUtLjk5LDEuNC0xLjI5LDIuMjQtLjMuODQtLjQ3LDEuNjgtLjQ5LDIuNTNoOC44NFoiLz48cGF0aCBjbGFzcz0iZCIgZD0ibTEyMC40NiwxNi43Yy0uNywwLTEuMzIuMDUtMS44Ni4xNi0uNTMuMTEtLjk4LjIzLTEuMzMuMzYtLjM1LjEzLS42My4yNy0uODQuNC0uMjEuMTMtLjMzLjIyLS4zOC4yN3YxNS4yNGgtMi40di0xNi4zM2MuMDctLjA1LjI2LS4xOS41Ni0uNDIuMy0uMjMuNzQtLjQ3LDEuMzEtLjczLjU3LS4yNSwxLjI2LS40OCwyLjA3LS42OS44MS0uMjEsMS43NS0uMzEsMi44Mi0uMzEsMS4yNCwwLDIuMTcuMDgsMi44LjI0LjYzLjE2LDEuMDguMzMsMS4zNS41My4zOS4yNC41OC41OC41OCwxLjAyLDAsLjI3LS4wNi41MS0uMTguNzMtLjEyLjIyLS4yNC4zOC0uMzYuNDctLjI5LS4xOS0uNzgtLjQtMS40Ny0uNjJzLTEuNTgtLjMzLTIuNjctLjMzWiIvPjxwYXRoIGNsYXNzPSJkIiBkPSJtMTMzLjc2LDE2LjY2Yy0xLjM4LDAtMi40Ni4xOC0zLjIyLjUzLS43Ni4zNS0xLjMuNjctMS42Mi45Ni0uMTctLjEyLS4zMi0uMy0uNDUtLjUzLS4xMy0uMjMtLjItLjQ4LS4yLS43NXMuMDctLjUuMi0uNjljLjEzLS4xOS4zLS4zNi40OS0uNTEuMjQtLjE5LjczLS40MSwxLjQ2LS42NS43My0uMjQsMS43OS0uMzYsMy4yLS4zNiwyLjkxLDAsNS4xMS41OSw2LjU4LDEuNzgsMS40OCwxLjE5LDIuMjIsMy4xLDIuMjIsNS43NXYxMC44OGMtLjcuMTItMS42NS4yNS0yLjg0LjM4LTEuMTkuMTMtMi43Ni4yLTQuNzMuMnMtMy4zNS0uMTgtNC40Ni0uNTVjLTEuMS0uMzYtMS45NS0uODItMi41My0xLjM4LS41OC0uNTYtLjk2LTEuMTgtMS4xMy0xLjg3LS4xNy0uNjktLjI1LTEuMzYtLjI1LTIuMDIsMC0uODIuMTMtMS42LjM4LTIuMzMuMjUtLjczLjY5LTEuMzYsMS4zMS0xLjkxLjYyLS41NSwxLjQ2LS45NywyLjUxLTEuMjcsMS4wNS0uMywyLjM3LS40NSwzLjk1LS40NS41MywwLDEuMDguMDEsMS42NC4wNC41Ni4wMiwxLjA4LjA1LDEuNTYuMDcuNDguMDIuOTIuMDUsMS4zMS4wNy4zOS4wMi42OS4wNC45MS4wNHYtLjA3YzAtMS43NS0uNDktMy4wNy0xLjQ2LTMuOTgtLjk3LS45MS0yLjU4LTEuMzYtNC44NC0xLjM2Wm02LjI5LDcuNDljLS4xMi0uMDItLjM2LS4wNS0uNzMtLjA5LS4zNi0uMDQtLjc5LS4wNy0xLjI3LS4xMS0uNDktLjA0LTEuMDEtLjA3LTEuNTgtLjA5LS41Ny0uMDItMS4xMS0uMDQtMS42Mi0uMDQtMS44MiwwLTMuMjYuMjktNC4zMy44Ny0xLjA3LjU4LTEuNiwxLjYzLTEuNiwzLjEzLDAsMS4zMS40NCwyLjI5LDEuMzEsMi45NS44Ny42NSwyLjQ0Ljk4LDQuNjkuOTgsMS41NSwwLDIuNzMtLjA2LDMuNTMtLjE4LjgtLjEyLDEuMzMtLjIzLDEuNi0uMzN2LTcuMDlaIi8+PGc+PHBhdGggY2xhc3M9ImQiIGQ9Im0xNDUuOTYsMzAuNzVoLS44djIuMzloLS4zNnYtMi4zOWgtLjh2LS4zM2gxLjk3di4zM1oiLz48cGF0aCBjbGFzcz0iZCIgZD0ibTE0OS4xNywzMy4xNGgtLjM2di0yLjI2bC0uODcsMi4yNmgtLjI2bC0uODgtMi4yN3YyLjI3aC0uMzV2LTIuNzJoLjU0bC44MiwyLjE0LjgyLTIuMTRoLjU0djIuNzJaIi8+PC9nPjxwYXRoIGNsYXNzPSJmIiBkPSJtOTIuMzcsNS4wNGMtLjQxLjc1LTEuMzIsMi44MS0xLjQ5LDYuNXY2LjY4cy4wMi4wNi4wNC4xYy41Ni0xLjA2LDEuMjMtMi4wMywyLjAzLTIuODcsMS4xNi0xLjIzLDIuNTctMi4yLDQuMTctMi44OSwxLjU5LS42OCwzLjMtMS4wMiw1LjEtMS4wMi4wOSwwLC4xOCwwLC4yOCwwLTIuMTItMy41NC01LjgxLTYuMDMtMTAuMTItNi41MVoiLz48cGF0aCBjbGFzcz0iZSIgZD0ibTg5LjM5LDUuMDRjLjQxLjc1LDEuMzIsMi44MSwxLjQ5LDYuNXY2LjY4cy0uMDIuMDYtLjA0LjFjLS41Ni0xLjA2LTEuMjMtMi4wMy0yLjAzLTIuODctMS4xNi0xLjIzLTIuNTctMi4yLTQuMTctMi44OS0xLjU5LS42OC0zLjMtMS4wMi01LjEtMS4wMi0uMDksMC0uMTgsMC0uMjgsMCwyLjEyLTMuNTQsNS44MS02LjAzLDEwLjEyLTYuNTFaIi8+PC9nPjxsaW5lIGNsYXNzPSJnIiB4MT0iMTY4LjIyIiB4Mj0iMTY4LjIyIiB5Mj0iNDYuNzMiLz48L2c+PC9zdmc+' style='height: 5%;'>
+  </div>
+<div class='report-title'>Project Vulnerability Report</div>
+</div>
+<!-- END HEADER -->
+<!-- BEGIN BODY -->
+<table id='applicationSummary' class='table' style='width:90%'>
+    <thead>
+        <tr>
+            <th colspan='8' class='text-center'><h4>ado-eportal Summary</h4></th>
+        </tr>
+    </thead>
+</table>
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm'>
+            <canvas id='applicationVulnerabilities'></canvas>
+         </div>
+    </div>
+</div>
+<table id='vulnerabilityData' class='table table-hover table-sm row-border' style='width:90%'>
+    <thead>
+        <tr>
+            <th colspan='9' class='text-center'><h4>Vulnerabilities</h4></th>
+        </tr>
+        <tr>
+            <th style='width: 15%' class='text-center'>VULNERABILITY</th>
+            <th style='width: 20%' class='text-center'>COMPONENT</th>
+            <th style='width: 5%; white-space:nowrap !important' class='text-center'>CVSS v3.x</th>
+            <th style='width: 5%' class='text-center'>SEVERITY</th>
+            <th style='width: 5%' class='text-center'>CVSS v3.x VECTOR</th>
+            <th style='width: 5%' class='text-center'>SOURCE</th>
+            <th style='width: 5%' class='text-center'>PUBLISHED</th>
+            <th style='width: 5%' class='text-center'>LAST MODIFIED</th>
+            <th style='width: 40%' class='text-center'>DESCRIPTION</th>
+        </tr>
+    </thead>
+    <tbody>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-0718" target="_blank">CVE-2016-0718</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2016-0718" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">05/26/2016</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">Expat allows context-dependent attackers to cause a denial of service (crash) or possibly execute arbitrary code via a malformed input document, which triggers a buffer overflow.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22823" target="_blank">CVE-2022-22823</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-22823" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/10/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">build_model in xmlparse.c in Expat (aka libexpat) before 2.4.3 has an integer overflow.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22824" target="_blank">CVE-2022-22824</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-22824" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/10/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">defineAttribute in xmlparse.c in Expat (aka libexpat) before 2.4.3 has an integer overflow.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22822" target="_blank">CVE-2022-22822</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-22822" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/10/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">addBinding in xmlparse.c in Expat (aka libexpat) before 2.4.3 has an integer overflow.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-25315" target="_blank">CVE-2022-25315</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-25315" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">02/18/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">In Expat (aka libexpat) before 2.4.5, there is an integer overflow in storeRawNames.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-25235" target="_blank">CVE-2022-25235</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-25235" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">02/16/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">xmltok_impl.c in Expat (aka libexpat) before 2.4.5 lacks certain validation of encoding, such as checks for whether a UTF-8 character is valid in a certain context.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-25236" target="_blank">CVE-2022-25236</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-25236" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">02/16/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">xmlparse.c in Expat (aka libexpat) before 2.4.5 allows attackers to insert namespace-separator characters into namespace URIs.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2024-45491" target="_blank">CVE-2024-45491</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2024-45491" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">08/30/2024</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">An issue was discovered in libexpat before 2.6.3. dtdCopy in xmlparse.c can have an integer overflow for nDefaultAtts on 32-bit platforms (where UINT_MAX equals SIZE_MAX).</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2024-45492" target="_blank">CVE-2024-45492</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2024-45492" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">08/30/2024</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">An issue was discovered in libexpat before 2.6.3. nextScaffoldPart in xmlparse.c can have an integer overflow for m_groupSize on 32-bit platforms (where UINT_MAX equals SIZE_MAX).</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-23852" target="_blank">CVE-2022-23852</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-23852" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/24/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">Expat (aka libexpat) before 2.4.4 has a signed integer overflow in XML_GetBuffer, for configurations with a nonzero XML_CONTEXT_BYTES.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2023-45853" target="_blank">CVE-2023-45853</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30546" target="_blank">madler-zlib - 1.2.13</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2023-45853" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">10/13/2023</td>
+<td style="vertical-align:middle">12/20/2024</td>
+<td style="vertical-align:middle">MiniZip in zlib through 1.3 has an integer overflow and resultant heap-based buffer overflow in zipOpenNewFileInZip4_64 via a long filename, comment, or extra field. NOTE: MiniZip is not a supported part of the zlib product. NOTE: pyminizip through 0.2.6 is also vulnerable because it bundles an affected zlib version, and exposes the applicable MiniZip code through its compress API.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-37434" target="_blank">CVE-2022-37434</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-37434" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">08/05/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">zlib through 1.2.12 has a heap-based buffer over-read or buffer overflow in inflate in inflate.c via a large gzip header extra field. NOTE: only applications that call inflateGetHeader are affected. Some common applications bundle the affected zlib source code but may be unable to call inflateGetHeader (e.g., see the nodejs/node reference).</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-9843" target="_blank">CVE-2016-9843</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2016-9843" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">05/23/2017</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">The crc32_big function in crc32.c in zlib 1.2.8 might allow context-dependent attackers to have unspecified impact via vectors involving big-endian CRC calculation.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-9841" target="_blank">CVE-2016-9841</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.8"> <span class="btn btn-critical">9.8</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2016-9841" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">05/23/2017</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">inffast.c in zlib 1.2.8 might allow context-dependent attackers to have unspecified impact by leveraging improper pointer arithmetic.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-45046" target="_blank">CVE-2021-45046</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30552" target="_blank">log4j-core - 2.16.0</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="9.0"> <span class="btn btn-critical">9.0</span></td>
+<td style="vertical-align:middle">CRITICAL</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2021-45046" target="_blank">CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">12/14/2021</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">It was found that the fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete in certain non-default configurations. This could allows attackers with control over Thread Context Map (MDC) input data when the logging configuration uses a non-default Pattern Layout with either a Context Lookup (for example, $${ctx:loginId}) or a Thread Context Map pattern (%X, %mdc, or %MDC) to craft malicious input data using a JNDI Lookup pattern resulting in an information leak and remote code execution in some environments and local code execution in all environments. Log4j 2.16.0 (Java 8) and 2.12.2 (Java 7) fix this issue by removing support for message lookup patterns and disabling JNDI functionality by default.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-45960" target="_blank">CVE-2021-45960</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="8.8"> <span class="btn btn-high">8.8</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2021-45960" target="_blank">CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/01/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">In Expat (aka libexpat) before 2.4.3, a left shift by 29 (or more) places in the storeAtts function in xmlparse.c can lead to realloc misbehavior (e.g., allocating too few bytes, or only freeing memory).</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22825" target="_blank">CVE-2022-22825</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="8.8"> <span class="btn btn-high">8.8</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-22825" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/10/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">lookup in xmlparse.c in Expat (aka libexpat) before 2.4.3 has an integer overflow.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22826" target="_blank">CVE-2022-22826</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="8.8"> <span class="btn btn-high">8.8</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-22826" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/10/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">nextScaffoldPart in xmlparse.c in Expat (aka libexpat) before 2.4.3 has an integer overflow.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22827" target="_blank">CVE-2022-22827</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="8.8"> <span class="btn btn-high">8.8</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-22827" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/10/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">storeAtts in xmlparse.c in Expat (aka libexpat) before 2.4.3 has an integer overflow.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-9840" target="_blank">CVE-2016-9840</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="8.8"> <span class="btn btn-high">8.8</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2016-9840" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">05/23/2017</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">inftrees.c in zlib 1.2.8 might allow context-dependent attackers to have unspecified impact by leveraging improper pointer arithmetic.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-40674" target="_blank">CVE-2022-40674</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="8.1"> <span class="btn btn-high">8.1</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-40674" target="_blank">CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">09/14/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">libexpat before 2.4.9 has a use-after-free in the doContent function in xmlparse.c.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-4472" target="_blank">CVE-2016-4472</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="8.1"> <span class="btn btn-high">8.1</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2016-4472" target="_blank">CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">06/30/2016</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">The overflow protection in Expat is removed by compilers with certain optimization settings, which allows remote attackers to cause a denial of service (crash) or possibly execute arbitrary code via crafted XML data.  NOTE: this vulnerability exists because of an incomplete fix for CVE-2015-1283 and CVE-2015-2716.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-46143" target="_blank">CVE-2021-46143</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.8"> <span class="btn btn-high">7.8</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2021-46143" target="_blank">CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/06/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">In doProlog in xmlparse.c in Expat (aka libexpat) before 2.4.3, an integer overflow exists for m_groupSize.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2006-1547" target="_blank">CVE-2006-1547</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2006-1547" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">03/30/2006</td>
+<td style="vertical-align:middle">01/03/2025</td>
+<td style="vertical-align:middle">ActionForm in Apache Software Foundation (ASF) Struts before 1.2.9 with BeanUtils 1.7 allows remote attackers to cause a denial of service via a multipart/form-data encoded form with a parameter name that references the public getMultipartRequestHandler method, which provides further access to elements in the CommonsMultipartRequestHandler implementation and BeanUtils.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2018-20843" target="_blank">CVE-2018-20843</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2018-20843" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">06/24/2019</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">In libexpat in Expat before 2.2.7, XML input including XML names that contain a large number of colons could make the XML parser consume a high amount of RAM and CPU resources while processing (enough to be usable for denial-of-service attacks).</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-5300" target="_blank">CVE-2016-5300</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2016-5300" target="_blank">CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">06/16/2016</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">The XML parser in Expat does not use sufficient entropy for hash initialization, which allows context-dependent attackers to cause a denial of service (CPU consumption) via crafted identifiers in an XML document.  NOTE: this vulnerability exists because of an incomplete fix for CVE-2012-0876.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2017-9233" target="_blank">CVE-2017-9233</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2017-9233" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">07/25/2017</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">XML External Entity vulnerability in libexpat 2.2.0 and earlier (Expat XML Parser Library) allows attackers to put the parser in an infinite loop using a malformed external entity definition from an external DTD.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-25314" target="_blank">CVE-2022-25314</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-25314" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">02/18/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">In Expat (aka libexpat) before 2.4.5, there is an integer overflow in copyString.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2024-45490" target="_blank">CVE-2024-45490</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2024-45490" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">08/30/2024</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">An issue was discovered in libexpat before 2.6.3. xmlparse.c does not reject a negative length for XML_ParseBuffer.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2019-15903" target="_blank">CVE-2019-15903</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2019-15903" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">09/04/2019</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">In libexpat before 2.2.8, crafted XML input could fool the parser into changing from DTD parsing to document parsing too early; a consecutive call to XML_GetCurrentLineNumber (or XML_GetCurrentColumnNumber) then resulted in a heap-based buffer over-read.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-23990" target="_blank">CVE-2022-23990</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-23990" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/26/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">Expat (aka libexpat) before 2.4.4 has an integer overflow in the doProlog function.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-43680" target="_blank">CVE-2022-43680</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-43680" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">10/24/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">In libexpat through 2.4.9, there is a use-after free caused by overeager destruction of a shared DTD in XML_ExternalEntityParserCreate in out-of-memory situations.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2023-52425" target="_blank">CVE-2023-52425</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2023-52425" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">02/04/2024</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">libexpat through 2.5.0 allows a denial of service (resource consumption) because many full reparsings are required in the case of a large token for which multiple buffer fills are needed.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2018-25032" target="_blank">CVE-2018-25032</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2018-25032" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">03/25/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">zlib before 1.2.12 allows memory corruption when deflating (i.e., when compressing) if the input has many distant matches.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/107600/" target="_blank">SA107600</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.5"> <span class="btn btn-high">7.5</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">03/28/2022</td>
+<td style="vertical-align:middle">03/28/2022</td>
+<td style="vertical-align:middle">A vulnerability has been reported in zlib, which can be exploited by malicious people to cause a DoS (Denial of Service).
+
+1) An error related to the Z_FIXED option when compressing certain inputs can be exploited to cause an out-of-bounds memory access and subsequently cause a crash.
+
+Successful exploitation of the vulnerability requires using the Z_FIXED strategy parameter.
+
+The vulnerability is reported in versions prior to 1.2.12.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2019-10086" target="_blank">CVE-2019-10086</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="7.3"> <span class="btn btn-high">7.3</span></td>
+<td style="vertical-align:middle">HIGH</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2019-10086" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">08/20/2019</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">In Apache Commons Beanutils 1.9.2, a special BeanIntrospector class was added which allows suppressing the ability for an attacker to access the classloader via the class property available on all Java objects. We, however were not using this by default characteristic of the PropertyUtilsBean.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-44832" target="_blank">CVE-2021-44832</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30552" target="_blank">log4j-core - 2.16.0</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="6.6"> <span class="btn btn-medium">6.6</span></td>
+<td style="vertical-align:middle">MEDIUM</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2021-44832" target="_blank">CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">12/28/2021</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">Apache Log4j2 versions 2.0-beta7 through 2.17.0 (excluding security fix releases 2.3.2 and 2.12.4) are vulnerable to a remote code execution (RCE) attack when a configuration uses a JDBC Appender with a JNDI LDAP data source URI when an attacker has control of the target LDAP server. This issue is fixed by limiting JNDI data source names to the java protocol in Log4j2 versions 2.17.1, 2.12.4, and 2.3.2.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-25313" target="_blank">CVE-2022-25313</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="6.5"> <span class="btn btn-medium">6.5</span></td>
+<td style="vertical-align:middle">MEDIUM</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2022-25313" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">02/18/2022</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">In Expat (aka libexpat) before 2.4.5, an attacker can trigger stack exhaustion in build_model via a large nesting depth in the DTD element.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2012-6702" target="_blank">CVE-2012-6702</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="5.9"> <span class="btn btn-medium">5.9</span></td>
+<td style="vertical-align:middle">MEDIUM</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2012-6702" target="_blank">CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">06/16/2016</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">Expat, when used in a parser that has not called XML_SetHashSalt or passed it a seed of 0, makes it easier for context-dependent attackers to defeat cryptographic protection mechanisms via vectors involving use of the srand function.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-45105" target="_blank">CVE-2021-45105</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30552" target="_blank">log4j-core - 2.16.0</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="5.9"> <span class="btn btn-medium">5.9</span></td>
+<td style="vertical-align:middle">MEDIUM</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2021-45105" target="_blank">CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">12/18/2021</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">Apache Log4j2 versions 2.0-alpha1 through 2.16.0 (excluding 2.12.3 and 2.3.1) did not protect from uncontrolled recursion from self-referential lookups. This allows an attacker with control over Thread Context Map data to cause a denial of service when a crafted string is interpreted. This issue was fixed in Log4j 2.17.0, 2.12.3, and 2.3.1.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2023-52426" target="_blank">CVE-2023-52426</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="5.5"> <span class="btn btn-medium">5.5</span></td>
+<td style="vertical-align:middle">MEDIUM</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=CVE-2023-52426" target="_blank">CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">02/04/2024</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">libexpat through 2.5.0 allows recursive XML Entity Expansion if XML_DTD is undefined at compile time.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59464/" target="_blank">SA59464</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/25/2014</td>
+<td style="vertical-align:middle">06/25/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM Content Analytics, IBM Content Analytics with Enterprise Search, and IBM OmniFind Enterprise Edition, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+Please see the vendor's advisory for a list of affected products and versions.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59118/" target="_blank">SA59118</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/17/2014</td>
+<td style="vertical-align:middle">06/17/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM InfoSphere Identity Insight, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in versions 8.0 and 8.1.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59246/" target="_blank">SA59246</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/12/2014</td>
+<td style="vertical-align:middle">06/12/2014</td>
+<td style="vertical-align:middle">A vulnerability has been reported in IBM Tivoli Identity Manager and IBM Security Identity Manager, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in following products and versions:
+* IBM Tivoli Identity Manager versions 5.0 and 5.1.
+* IBM Security Identity Manager version 6.0.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59245/" target="_blank">SA59245</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/12/2014</td>
+<td style="vertical-align:middle">06/12/2014</td>
+<td style="vertical-align:middle">Two vulnerabilities have been reported in IBM Security SiteProtector, which can be exploited by malicious people to cause a DoS (Denial of Service) and bypass certain security restrictions.
+
+For more information:
+SA58174
+SA58559
+
+The vulnerabilities are reported in versions 3.0 and 3.1.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/60177/" target="_blank">SA60177</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">08/13/2014</td>
+<td style="vertical-align:middle">08/13/2014</td>
+<td style="vertical-align:middle">HP has acknowledged a vulnerability in HP SiteScope, which can be exploited by malicious people to bypass certain security restrictions.
+
+The vulnerability is caused due to the application not properly restricting access to the "class" parameter which is directly mapped to the "getClass()" method.
+
+For more information:
+SA58518
+
+The vulnerability is reported in versions 11.1x and 11.2x.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/58710/" target="_blank">SA58710</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/17/2014</td>
+<td style="vertical-align:middle">06/17/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM Web Interface for Content Management (WEBi), which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in version 1.0.4.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/20117/" target="_blank">SA20117</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">05/15/2006</td>
+<td style="vertical-align:middle">05/15/2006</td>
+<td style="vertical-align:middle">SUSE has issued an update for multiple packages. This fixes some vulnerabilities, which potentially can be exploited by malicious, local users to cause a DoS (Denial of Service) and by malicious people to cause files to be extracted to arbitrary locations on a user's system, bypass certain security restrictions, conduct cross-site scripting attacks, cause a DoS (Denial of Service), or compromise a vulnerable system.
+
+For more information:
+SA7745
+SA18251
+SA19493
+SA19769
+SA19880</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59479/" target="_blank">SA59479</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/24/2014</td>
+<td style="vertical-align:middle">06/24/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM Records Manager, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in versions 8.4 and 8.5.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59480/" target="_blank">SA59480</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/25/2014</td>
+<td style="vertical-align:middle">06/25/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM Content Manager Records Enabler, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in versions 8.4 and 8.5.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59704/" target="_blank">SA59704</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">07/08/2014</td>
+<td style="vertical-align:middle">07/08/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged multiple vulnerabilities in IBM Content Collector, which can be exploited by malicious people to disclose sensitive information, manipulate certain data, and bypass certain security restrictions.
+
+1) The application bundles a vulnerable version of Java.
+
+For more information:
+SA56485 (#36)
+SA57932 (#24)
+
+2) The application bundles a vulnerable version of Apache Struts.
+
+For more information:
+SA58559
+
+The vulnerabilities are reported in versions 2.2.0.0 through 2.2.0.4.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/60703/" target="_blank">SA60703</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">08/25/2014</td>
+<td style="vertical-align:middle">08/25/2014</td>
+<td style="vertical-align:middle">Debian has issued an update for libstruts1.2-java. This fixes a vulnerability, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58518</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59228/" target="_blank">SA59228</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/16/2014</td>
+<td style="vertical-align:middle">06/16/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM InfoSphere Data Click, which can be exploited by malicious people to bypass certain security restrictions.
+
+The vulnerability is caused due to the application not properly restricting access to the "class" parameter which is directly mapped to the "getClass()" method.
+
+For more information:
+SA58518
+
+The vulnerability is reported in version 10.0 running on Linux.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/58851/" target="_blank">SA58851</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/26/2014</td>
+<td style="vertical-align:middle">06/26/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM Lotus Quickr for WebSphere Portal, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in version 8.5.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/58947/" target="_blank">SA58947</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/17/2014</td>
+<td style="vertical-align:middle">06/17/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM Tivoli Storage Productivity Center, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in versions 5.1.x and 4.x.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/57477/" target="_blank">SA57477</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/17/2014</td>
+<td style="vertical-align:middle">06/17/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM Tivoli Application Dependency Discovery Manager, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in versions 7.1.2, 7.2.0, 7.2.1, and 7.2.2.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59014/" target="_blank">SA59014</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/30/2014</td>
+<td style="vertical-align:middle">08/06/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM Rational Change, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in versions prior to 5.2.0.8 interim fix 4, prior to 5.3.1.1 interim fix 1, and prior to 5.3.0.6 interim fix 2.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59430/" target="_blank">SA59430</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/24/2014</td>
+<td style="vertical-align:middle">06/26/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in multiple IBM products, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in the following products and versions:
+* IBM FileNet Content Manager versions 5.2.x.
+* IBM Content Foundation versions 5.2.x.
+* IBM FileNet Content Federation Services versions 5.0.0, 5.1.0, and 5.2.x.
+* IBM Content Search Engine 4.5.1
+* IBM Legacy Content Search Engine 5.0</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/59718/" target="_blank">SA59718</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">07/07/2014</td>
+<td style="vertical-align:middle">07/07/2014</td>
+<td style="vertical-align:middle">IBM has acknowledged a vulnerability in IBM Tivoli Provisioning Manager for Software, which can be exploited by malicious people to bypass certain security restrictions.
+
+For more information:
+SA58559
+
+The vulnerability is reported in version 5.1.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/19493/" target="_blank">SA19493</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">04/03/2006</td>
+<td style="vertical-align:middle">04/03/2006</td>
+<td style="vertical-align:middle">Some vulnerabilities have been reported in Struts, which can be exploited by malicious people to conduct cross-site scripting attacks, cause a DoS (Denial of Service), or bypass certain security restrictions.
+
+1) The RequestProcessor allows all actions to be canceled making it possible to bypass validation in actions that proceed without checking "isCancelled()". This may allow bypassing of security restrictions. 
+
+2) The public method "getMultipartRequestHandler()" in ActionForm gives access to elements in CommonsMultipartRequestHandler and BeanUtils. This can be exploited to cause a DoS by sending a specially request with a parameter referencing the public method.
+
+3) Invalid input is not properly sanitised in LookupDispatchAction when not corresponding to an entry in the lookupMap before being returned to users in an error message. This can be exploited to execute arbitrary HTML and script code in a user's browser session in context of a vulnerable site.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/51024/" target="_blank">SA51024</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">10/18/2012</td>
+<td style="vertical-align:middle">10/18/2012</td>
+<td style="vertical-align:middle">Ubuntu has issued an update for python2.5. This fixes multiple vulnerabilities, which can be exploited by malicious, local users to potentially disclose sensitive information and by malicious people to conduct cross-site scripting attacks, disclose potentially sensitive information, cause a DoS (Denial of Service), and potentially compromise a vulnerable system.
+
+For more information:
+SA39937
+SA40148
+SA41968
+SA43463
+SA43831
+SA47810
+SA48347
+SA49622
+SA49354
+SA50648</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/49504/" target="_blank">SA49504</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">06/14/2012</td>
+<td style="vertical-align:middle">06/14/2012</td>
+<td style="vertical-align:middle">Red Hat has issued an update for expat. This fixes a vulnerability, which can be exploited by malicious people to cause a DoS (Denial of Service).
+
+For more information see vulnerability #3 in:
+SA36425</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/51040/" target="_blank">SA51040</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">10/18/2012</td>
+<td style="vertical-align:middle">10/18/2012</td>
+<td style="vertical-align:middle">Ubuntu has issued an update for python2.4. This fixes multiple vulnerabilities, which can be exploited by malicious, local users to potentially disclose sensitive information and by malicious people to conduct cross-site scripting attacks, disclose potentially sensitive information, cause a DoS (Denial of Service), and potentially compromise a vulnerable system.
+
+For more information:
+SA39937
+SA40148
+SA41968
+SA43463
+SA43831
+SA47810
+SA48347
+SA49622
+SA49354
+SA50648</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/17054/" target="_blank">SA17054</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">10/04/2005</td>
+<td style="vertical-align:middle">10/04/2005</td>
+<td style="vertical-align:middle">Two vulnerabilities have been reported in CVS, which potentially can be exploited by malicious people to cause a DoS (Denial of Service) and compromise a vulnerable system.
+
+The vulnerabilities are caused due to the use of a vulnerable version of zlib.
+
+For more information:
+SA11129
+SA15949
+
+The vulnerabilities have been reported in version 1.12.12. Prior versions may also be affected.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/18406/" target="_blank">SA18406</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">01/11/2006</td>
+<td style="vertical-align:middle">01/11/2006</td>
+<td style="vertical-align:middle">HP has acknowledged a security issue and a vulnerability in HP-UX, which can be exploited by malicious people to cause a DoS (Denial of Service) or by malicious users to gain escalated privileges.
+
+For more information:
+SA16686
+SA15949
+
+The security issue and vulnerability have been reported in versions B.11.00, B.11.11, and B.11.23.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/32706/" target="_blank">SA32706</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">11/14/2008</td>
+<td style="vertical-align:middle">11/14/2008</td>
+<td style="vertical-align:middle">Some vulnerabilities have been reported in Apple Safari, which can be exploited by malicious, local users to disclose potentially sensitive information and by malicious people to disclose sensitive information or compromise a user's system.
+
+1) A vulnerability is caused due to insecure zlib code.
+
+For more information:
+SA15949
+
+2) A vulnerability is caused due to insecure libxslt code.
+
+For more information:
+SA30315
+
+3) An unspecified error in CoreGraphics within the processing of handling of color spaces can be exploited to cause a heap-based buffer overflow via a specially crafted image.
+
+Successful exploitation may allow execution of arbitrary code.
+
+4) A vulnerability in the processing of TIFF images can potentially be exploited to execute arbitrary code.
+
+For more information:
+SA31610
+
+5) A vulnerability in the processing of TIFF images can potentially be exploited to execute arbitrary code.
+
+For more information:
+SA31882
+
+6) A vulnerability in the processing of JPEG images can potentially be exploited to execute arbitrary code.
+
+For more information:
+SA31882
+
+7) A vulnerability in the handling of images with an embedded ICC profile can be exploited to execute arbitrary code.
+
+For more information:
+SA32222
+
+8) Data supplied to form fields may be exposed via the browser page cache, although the "Autocomplete" feature is disabled.
+
+9) A signedness error in Safari when handling Javascript array indices can be exploited to execute arbitrary code.
+
+For more information:
+SA31074
+
+10) A vulnerability in the handling of style sheet elements can be exploited to execute arbitrary code.
+
+For more information:
+SA31074
+
+11) An error in the plugin interface in Webkit can be exploited to disclose sensitive information by launching local files.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/31492/" target="_blank">SA31492</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">08/14/2008</td>
+<td style="vertical-align:middle">08/14/2008</td>
+<td style="vertical-align:middle">Red Hat has issued an update for the Red Hat Network Satellite Server Solaris client. This fixes some vulnerabilities, which can be exploited by malicious people to expose sensitive information, bypass certain security restrictions, cause a DoS (Denial of Service), and potentially compromise a vulnerable system.
+
+For more information:
+SA15949
+SA16137
+SA17151
+SA21709
+SA22130
+SA22276
+SA25190
+SA26837</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/17516/" target="_blank">SA17516</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">11/10/2005</td>
+<td style="vertical-align:middle">11/10/2005</td>
+<td style="vertical-align:middle">Ubuntu has issued an update for lsb-rpm. This fixes some vulnerabilities, which can be exploited by malicious people to cause a DoS (Denial of Service) or potentially compromise a vulnerable system.
+
+For more information:
+SA15949
+SA16137</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/17326/" target="_blank">SA17326</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">10/27/2005</td>
+<td style="vertical-align:middle">10/27/2005</td>
+<td style="vertical-align:middle">Mandriva has issued an update for perl-Compress-Zlib. This fixes some vulnerabilities, which can be exploited by malicious people to cause a DoS (Denial of Service) or potentially compromise a vulnerable system.
+
+For more information:
+SA15949
+SA16137</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/24788/" target="_blank">SA24788</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">04/05/2007</td>
+<td style="vertical-align:middle">04/05/2007</td>
+<td style="vertical-align:middle">VMware has acknowledged some vulnerabilities in VMware ESX Server, which can be exploited by malicious, local users to perform certain actions on a vulnerable system with escalated privileges, and malicious people to disclose potentially sensitive information, cause a DoS (Denial of Service), and potentially compromise a vulnerable system.
+
+For more information:
+SA15449
+SA15949
+SA16137
+SA16816
+
+Additionally, a VMware internal security audit revealed the following two vulnerabilities:
+
+1) An unspecified double free error can be exploited to cause a DoS, disclose sensitive information and may allow the execution of arbitrary code via unknown vectors.
+
+2) An unspecified buffer overflow can be exploited to cause a DoS or gain escalated privileges via unknown vectors.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/19334/" target="_blank">SA19334</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">03/22/2006</td>
+<td style="vertical-align:middle">03/22/2006</td>
+<td style="vertical-align:middle">Gentoo has issued an update for pngcrush. This fixes a vulnerability, which can be exploited by malicious people to cause a DoS (Denial of Service).
+
+For more information:
+SA16137</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/19597/" target="_blank">SA19597</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">04/11/2006</td>
+<td style="vertical-align:middle">04/11/2006</td>
+<td style="vertical-align:middle">Mandriva has issued an update for sash. This fixes some vulnerabilities, which can be exploited by malicious people to conduct a DoS (Denial of Service) against a vulnerable application or potentially execute arbitrary code.
+
+For more information:
+SA15949
+SA16137</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/18507/" target="_blank">SA18507</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">01/18/2006</td>
+<td style="vertical-align:middle">01/18/2006</td>
+<td style="vertical-align:middle">Avaya has acknowledged a security issue and a vulnerability in Predictive Dialer System (PDS), which can be exploited by malicious people to cause a DoS (Denial of Service) or by malicious users to gain escalated privileges.
+
+For more information:
+SA18406
+
+The security issue and vulnerability have been reported in PDS v12 and v12 APC 3.0.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/18377/" target="_blank">SA18377</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">01/11/2006</td>
+<td style="vertical-align:middle">01/11/2006</td>
+<td style="vertical-align:middle">SCO has issued an update for zlib. This fixes some vulnerabilities, which can be exploited by malicious people to conduct a DoS (Denial of Service) against a vulnerable application or potentially execute arbitrary code.
+
+For more information:
+SA11129
+SA15949
+SA16137</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/11129/" target="_blank">SA11129</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">08/30/2004</td>
+<td style="vertical-align:middle">10/11/2004</td>
+<td style="vertical-align:middle">A vulnerability has been reported in zlib, which can be exploited by malicious people to conduct a DoS (Denial of Service) against a vulnerable application.
+
+The vulnerability is caused due to insufficient error handling in the functions "inflate()" and "inflateBack()". This can be exploited to cause a DoS on any application linked to the zlib library.
+
+The vulnerability has been reported in version 1.2.1. Other versions may also be affected.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/17225/" target="_blank">SA17225</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">10/17/2005</td>
+<td style="vertical-align:middle">10/17/2005</td>
+<td style="vertical-align:middle">A vulnerability has been reported in Network Security Services (NSS), which potentially can be exploited by malicious people to cause a DoS (Denial of Service) or compromise a vulnerable system.
+
+The vulnerability is caused due to the use of a vulnerable version of zlib.
+
+For more information:
+SA15949
+
+The vulnerability affects version 3.10. Prior versions may also be affected. NSS tools such as "signtool" and "modutil" are also affected.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/16137/" target="_blank">SA16137</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">07/21/2005</td>
+<td style="vertical-align:middle">07/22/2005</td>
+<td style="vertical-align:middle">Markus Oberhumer has reported a vulnerability in zlib, which can be exploited by malicious people to cause a DoS (Denial of Service) against a vulnerable application.
+
+The vulnerability is caused due to the insufficient size of the code table declared in inflate.h, and can be exploited to cause an application using the zlib library to crash via a specially crafted input file.
+
+The vulnerability has been reported in version 1.2.2. Prior versions may also be affected.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/15949/" target="_blank">SA15949</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">07/07/2005</td>
+<td style="vertical-align:middle">08/22/2005</td>
+<td style="vertical-align:middle">A vulnerability has been reported in zlib, which can be exploited by malicious people to conduct a DoS (Denial of Service) against a vulnerable application or potentially execute arbitrary code.
+
+The vulnerability is caused due to a boundary error in inftrees.c when handling corrupted compressed data streams. This can be exploited to crash any application that uses the zlib library, or potentially to execute arbitrary code with privileges of the vulnerable application.
+
+The vulnerability has been reported in version 1.2.2. Prior versions may also be affected.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/19550/" target="_blank">SA19550</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">04/06/2006</td>
+<td style="vertical-align:middle">04/06/2006</td>
+<td style="vertical-align:middle">Debian has issued an update for sash. This fixes a vulnerability, which potentially can be exploited by malicious people to compromise a user's system.
+
+The vulnerability is caused due to the use of a vulnerable version of zlib.
+
+For more information:
+SA15949</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://secuniaresearch.flexerasoftware.com/advisories/17236/" target="_blank">SA17236</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="0.0"> <span class="btn btn-none">0.0</span></td>
+<td style="vertical-align:middle">NONE</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Secunia</td>
+<td style="vertical-align:middle">10/17/2005</td>
+<td style="vertical-align:middle">06/23/2006</td>
+<td style="vertical-align:middle">Sun Microsystems has acknowledged a vulnerability in Solaris and Sun Java Enterprise System, which potentially can be exploited by malicious people to cause a DoS (Denial of Service) or compromise a user's system.
+
+For more information:
+SA17225
+
+The vulnerability has been reported in the following products:
+* Solaris 9 Operating System
+* Solaris 10 Operating System
+* Sun Java Enterprise System 2003Q4
+* Sun Java Enterprise System 2004Q2
+* Sun Java Enterprise System 2005Q1</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2014-0114" target="_blank">CVE-2014-0114</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30542" target="_blank">apache-commons-beanutils - 1.7</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">04/30/2014</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">Apache Commons BeanUtils, as distributed in lib/commons-beanutils-1.8.0.jar in Apache Struts 1.x through 1.3.10 and in other products requiring commons-beanutils through 1.9.2, does not suppress the class property, which allows remote attackers to "manipulate" the ClassLoader and execute arbitrary code via the class parameter, as demonstrated by the passing of this parameter to the getClass method of the ActionForm object in Struts 1.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2022/dsa-5266" target="_blank">DSA-5266</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">10/30/2022</td>
+<td style="vertical-align:middle">10/30/2022</td>
+<td style="vertical-align:middle">A heap use-after-free vulnerability after overeager destruction of a shared DTD in the XML_ExternalEntityParserCreate function in Expat, an XML parsing C library, may result in denial of service or potentially the execution of arbitrary code. For the stable distribution (bullseye), this problem has been fixed in version 2.2.10-2+deb11u5. We recommend that you upgrade your expat packages. For the detailed security status of expat please refer to its security tracker page at: https://security-tracker.debian.org/tracker/expat</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2012/dsa-2525" target="_blank">DSA-2525</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">08/06/2012</td>
+<td style="vertical-align:middle">08/06/2012</td>
+<td style="vertical-align:middle">It was discovered that Expat, a C library to parse XML, is vulnerable to denial of service through hash collisions and a memory leak in pool handling. For the stable distribution (squeeze), this problem has been fixed in version 2.0.1-7+squeeze1. For the testing distribution (wheezy), this problem has been fixed in version 2.1.0~beta3-1. For the unstable distribution (sid), this problem has been fixed in version 2.1.0~beta3-1. We recommend that you upgrade your expat packages.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2016/dsa-3582" target="_blank">DSA-3582</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">05/18/2016</td>
+<td style="vertical-align:middle">05/18/2016</td>
+<td style="vertical-align:middle">Gustavo Grieco discovered that Expat, an XML parsing C library, does not properly handle certain kinds of malformed input documents, resulting in buffer overflows during processing and error reporting. A remote attacker can take advantage of this flaw to cause an application using the Expat library to crash, or potentially, to execute arbitrary code with the privileges of the user running the application. For the stable distribution (jessie), this problem has been fixed in version 2.1.0-6+deb8u2. Additionally this update refreshes the fix for CVE-2015-1283 to avoid relying on undefined behavior. We recommend that you upgrade your expat packages.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2015-1283" target="_blank">CVE-2015-1283</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">07/23/2015</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">Multiple integer overflows in the XML_GetBuffer function in Expat through 2.1.0, as used in Google Chrome before 44.0.2403.89 and other products, allow remote attackers to cause a denial of service (heap-based buffer overflow) or possibly have unspecified other impact via crafted XML data, a related issue to CVE-2015-2716.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2017/dsa-3898" target="_blank">DSA-3898</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">06/25/2017</td>
+<td style="vertical-align:middle">06/25/2017</td>
+<td style="vertical-align:middle">Multiple vulnerabilities have been discovered in Expat, an XML parsing C library. The Common Vulnerabilities and Exposures project identifies the following problems: CVE-2016-9063 Gustavo Grieco discovered an integer overflow flaw during parsing of XML. An attacker can take advantage of this flaw to cause a denial of service against an application using the Expat library. CVE-2017-9233 Rhodri James discovered an infinite loop vulnerability within the entityValueInitProcessor() function while parsing malformed XML in an external entity. An attacker can take advantage of this flaw to cause a denial of service against an application using the Expat library. For the oldstable distribution (jessie), these problems have been fixed in version 2.1.0-6+deb8u4. For the stable distribution (stretch), these problems have been fixed in version 2.2.0-2+deb9u1. For the stable distribution (stretch), CVE-2016-9063 was already fixed before the initial release. For the testing distribution (buster), these problems have been fixed in version 2.2.1-1 or earlier version. For the unstable distribution (sid), these problems have been fixed in version 2.2.1-1 or earlier version. We recommend that you upgrade your expat packages.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2019/dsa-4472" target="_blank">DSA-4472</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">06/28/2019</td>
+<td style="vertical-align:middle">06/28/2019</td>
+<td style="vertical-align:middle">It was discovered that Expat, an XML parsing C library, did not properly handled XML input including XML names that contain a large number of colons, potentially resulting in denial of service. For the stable distribution (stretch), this problem has been fixed in version 2.2.0-2+deb9u2. We recommend that you upgrade your expat packages. For the detailed security status of expat please refer to its security tracker page at: https://security-tracker.debian.org/tracker/expat</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2022/dsa-5236" target="_blank">DSA-5236</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">09/22/2022</td>
+<td style="vertical-align:middle">09/22/2022</td>
+<td style="vertical-align:middle">Rhodri James discovered a heap use-after-free vulnerability in the doContent function in Expat, an XML parsing C library, which could result in denial of service or potentially the execution of arbitrary code, if a malformed XML file is processed. For the stable distribution (bullseye), this problem has been fixed in version 2.2.10-2+deb11u4. We recommend that you upgrade your expat packages. For the detailed security status of expat please refer to its security tracker page at: https://security-tracker.debian.org/tracker/expat</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2012-0876" target="_blank">CVE-2012-0876</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">07/03/2012</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">The XML parser (xmlparse.c) in expat before 2.1.0 computes hash values without restricting the ability to trigger hash collisions predictably, which allows context-dependent attackers to cause a denial of service (CPU consumption) via an XML file with many identifiers with the same value.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2015/dsa-3318" target="_blank">DSA-3318</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">07/26/2015</td>
+<td style="vertical-align:middle">07/26/2015</td>
+<td style="vertical-align:middle">Multiple integer overflows have been discovered in Expat, an XML parsing C library, which may result in denial of service or the execution of arbitrary code if a malformed XML file is processed. For the oldstable distribution (wheezy), this problem has been fixed in version 2.1.0-1+deb7u2. For the stable distribution (jessie), this problem has been fixed in version 2.1.0-6+deb8u1. For the unstable distribution (sid), this problem has been fixed in version 2.1.0-7. We recommend that you upgrade your expat packages.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2012-1147" target="_blank">CVE-2012-1147</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">07/03/2012</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">readfilemap.c in expat before 2.1.0 allows context-dependent attackers to cause a denial of service (file descriptor consumption) via a large number of crafted XML files.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2012-1148" target="_blank">CVE-2012-1148</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">07/03/2012</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">Memory leak in the poolGrow function in expat/lib/xmlparse.c in expat before 2.1.0 allows context-dependent attackers to cause a denial of service (memory consumption) via a large number of crafted XML files that cause improperly-handled reallocation failures when expanding entities.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2013-0340" target="_blank">CVE-2013-0340</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">01/21/2014</td>
+<td style="vertical-align:middle">11/21/2024</td>
+<td style="vertical-align:middle">expat 2.1.0 and earlier does not properly handle entities expansion unless an application developer uses the XML_SetEntityDeclHandler function, which allows remote attackers to cause a denial of service (resource consumption), send HTTP requests to intranet servers, or read arbitrary files via a crafted XML document, aka an XML External Entity (XXE) issue.  NOTE: it could be argued that because expat already provides the ability to disable external entity expansion, the responsibility for resolving this issue lies with application developers; according to this argument, this entry should be REJECTed, and each affected application would need its own CVE.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2022/dsa-5073" target="_blank">DSA-5073</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">02/12/2022</td>
+<td style="vertical-align:middle">02/12/2022</td>
+<td style="vertical-align:middle">Several vulnerabilities have been discovered in Expat, an XML parsing C library, which could result in denial of service or potentially the execution of arbitrary code, if a malformed XML file is processed. For the oldstable distribution (buster), these problems have been fixed in version 2.2.6-2+deb10u2. For the stable distribution (bullseye), these problems have been fixed in version 2.2.10-2+deb11u1. We recommend that you upgrade your expat packages. For the detailed security status of expat please refer to its security tracker page at: https://security-tracker.debian.org/tracker/expat</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2022/dsa-5085" target="_blank">DSA-5085</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">02/22/2022</td>
+<td style="vertical-align:middle">02/22/2022</td>
+<td style="vertical-align:middle">Several vulnerabilities have been discovered in Expat, an XML parsing C library, which could result in denial of service or potentially the execution of arbitrary code, if a malformed XML file is processed. For the oldstable distribution (buster), these problems have been fixed in version 2.2.6-2+deb10u3. For the stable distribution (bullseye), these problems have been fixed in version 2.2.10-2+deb11u2. We recommend that you upgrade your expat packages. For the detailed security status of expat please refer to its security tracker page at: https://security-tracker.debian.org/tracker/expat</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2016/dsa-3597" target="_blank">DSA-3597</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">06/07/2016</td>
+<td style="vertical-align:middle">06/07/2016</td>
+<td style="vertical-align:middle">Two related issues have been discovered in Expat, a C library for parsing XML. CVE-2012-6702 It was introduced when CVE-2012-0876 was addressed. Stefan Sørensen discovered that the use of the function XML_Parse() seeds the random number generator generating repeated outputs for rand() calls. CVE-2016-5300 It is the product of an incomplete solution for CVE-2012-0876. The parser poorly seeds the random number generator allowing an attacker to cause a denial of service (CPU consumption) via an XML file with crafted identifiers. You might need to manually restart programs and services using expat libraries. For the stable distribution (jessie), these problems have been fixed in version 2.1.0-6+deb8u3. For the unstable distribution (sid), these problems have been fixed in version 2.1.1-3. We recommend that you upgrade your expat packages.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2019/dsa-4530" target="_blank">DSA-4530</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30547" target="_blank">expat - 1.95.8</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">09/22/2019</td>
+<td style="vertical-align:middle">09/22/2019</td>
+<td style="vertical-align:middle">It was discovered that Expat, an XML parsing C library, did not properly handled internal entities closing the doctype, potentially resulting in denial of service or information disclosure if a malformed XML file is processed. For the oldstable distribution (stretch), this problem has been fixed in version 2.2.0-2+deb9u3. For the stable distribution (buster), this problem has been fixed in version 2.2.6-2+deb10u1. We recommend that you upgrade your expat packages. For the detailed security status of expat please refer to its security tracker page at: https://security-tracker.debian.org/tracker/expat</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://github.com/advisories/GHSA-8489-44mv-ggj8" target="_blank">GHSA-8489-44mv-ggj8</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30552" target="_blank">log4j-core - 2.16.0</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=GHSA-8489-44mv-ggj8" target="_blank">CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H</a></td>
+<td style="vertical-align:middle">Github Advisory</td>
+<td style="vertical-align:middle">01/04/2022</td>
+<td style="vertical-align:middle">02/25/2022</td>
+<td style="vertical-align:middle">Apache Log4j2 versions 2.0-beta7 through 2.17.0 (excluding security fix releases 2.3.2 and 2.12.4) are vulnerable to an attack where an attacker with permission to modify the logging configuration file can construct a malicious configuration using a JDBC Appender with a data source referencing a JNDI URI which can execute remote code. This issue is fixed by limiting JNDI data source names to the java protocol in Log4j2 versions 2.17.1, 2.12.4, and 2.3.2.
+
+
+# Affected packages
+Only the `org.apache.logging.log4j:log4j-core` package is directly affected by this vulnerability. The `org.apache.logging.log4j:log4j-api` should be kept at the same version as the `org.apache.logging.log4j:log4j-core` package to ensure compatability if in use.
+
+This issue does not impact default configurations of Log4j2 and requires an attacker to have control over the Log4j2 configuration, which reduces the likelihood of being exploited.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://github.com/advisories/GHSA-p6xc-xr62-6r2g" target="_blank">GHSA-p6xc-xr62-6r2g</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30552" target="_blank">log4j-core - 2.16.0</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name=GHSA-p6xc-xr62-6r2g" target="_blank">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:H</a></td>
+<td style="vertical-align:middle">Github Advisory</td>
+<td style="vertical-align:middle">12/18/2021</td>
+<td style="vertical-align:middle">08/11/2022</td>
+<td style="vertical-align:middle">Apache Log4j2 versions 2.0-alpha1 through 2.16.0 (excluding 2.12.3) did not protect from uncontrolled recursion from self-referential lookups. This allows an attacker with control over Thread Context Map data to cause a denial of service when a crafted string is interpreted. This issue was fixed in Log4j 2.17.0 and 2.12.3.
+
+
+# Affected packages
+Only the `org.apache.logging.log4j:log4j-core` package is directly affected by this vulnerability. The `org.apache.logging.log4j:log4j-api` should be kept at the same version as the `org.apache.logging.log4j:log4j-core` package to ensure compatability if in use.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2022/dsa-5111" target="_blank">DSA-5111</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30546" target="_blank">madler-zlib - 1.2.13</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">04/01/2022</td>
+<td style="vertical-align:middle">04/01/2022</td>
+<td style="vertical-align:middle">Danilo Ramos discovered that incorrect memory handling in zlib's deflate handling could result in denial of service or potentially the execution of arbitrary code if specially crafted input is processed. For the oldstable distribution (buster), this problem has been fixed in version 1:1.2.11.dfsg-1+deb10u1. For the stable distribution (bullseye), this problem has been fixed in version 1:1.2.11.dfsg-2+deb11u1. We recommend that you upgrade your zlib packages. For the detailed security status of zlib please refer to its security tracker page at: https://security-tracker.debian.org/tracker/zlib</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://www.debian.org/security/2022/dsa-5218" target="_blank">DSA-5218</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30546" target="_blank">madler-zlib - 1.2.13</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+<a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30548" target="_blank">madler-zlib - 1.2.3</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">Debian Advisories</td>
+<td style="vertical-align:middle">08/25/2022</td>
+<td style="vertical-align:middle">08/25/2022</td>
+<td style="vertical-align:middle">Evgeny Legerov reported a heap-based buffer overflow vulnerability in the inflate operation in zlib, which could result in denial of service or potentially the execution of arbitrary code if specially crafted input is processed. For the stable distribution (bullseye), this problem has been fixed in version 1:1.2.11.dfsg-2+deb11u2. We recommend that you upgrade your zlib packages. For the detailed security status of zlib please refer to its security tracker page at: https://security-tracker.debian.org/tracker/zlib</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2005-1849" target="_blank">CVE-2005-1849</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">07/26/2005</td>
+<td style="vertical-align:middle">11/20/2024</td>
+<td style="vertical-align:middle">inftrees.h in zlib 1.2.2 allows remote attackers to cause a denial of service (application crash) via an invalid file that causes a large dynamic tree to be produced.</td>
+</tr>
+<td style="vertical-align:middle"><a href="https://nvd.nist.gov/vuln/detail/CVE-2005-2096" target="_blank">CVE-2005-2096</a></td>
+<td style="vertical-align:middle"><a href="https://demo.mycodeinsight.com:443/codeinsight/FNCI#myprojectdetails/?id=52&tab=projectInventory&pinv=30549" target="_blank">madler-zlib - 1.2.2</a><br>
+</td>
+<td style="vertical-align:middle" class='text-center' data-order="-"> <span class="btn btn-n/a">-</span></td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">N/A</td>
+<td style="vertical-align:middle">NVD</td>
+<td style="vertical-align:middle">07/06/2005</td>
+<td style="vertical-align:middle">11/20/2024</td>
+<td style="vertical-align:middle">zlib 1.2 and later versions allows remote attackers to cause a denial of service (crash) via a crafted compressed stream with an incomplete code description of a length greater than 1, which leads to a buffer overflow, as demonstrated using a crafted PNG file.</td>
+</tr>
+    </tbody>
+</table>
+<!-- END BODY -->
+<!-- BEGIN FOOTER -->
+<div class='report-footer'>
+  <div style='float:right'>Generated on April 21, 2025 at 13:35:30</div>
+<br>
+  <div style='float:right'>Report Version: 3.4.0</div>
+</div>
+<!-- END FOOTER -->
+</div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>  
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.10/jstree.min.js"></script> 
+    <script>
+
+
+            $(document).ready(function (){
+                var table = $('#vulnerabilityData').DataTable({
+                    "order": [[ 2, "desc" ]],
+                    "lengthMenu": [ [25, 50, 100, -1], [25, 50, 100, "All"] ],
+                });
+            });
+          
+        var defaultBarChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+            padding: {
+                bottom: 25  //set that fits the best
+            }
+        },
+        tooltips: {
+            enabled: true,
+            yAlign: 'center'
+        },
+        title: {
+            display: true,
+            fontColor: "#323E48"
+        },
+
+        scales: {
+            xAxes: [{
+                ticks: {
+                    beginAtZero:true,
+                    fontSize:11,
+                    fontColor: "#323E48",
+                    precision:0
+
+                },
+                scaleLabel:{
+                    display:false
+                },
+                gridLines: {
+                }, 
+                stacked: true
+            }],
+            yAxes: [{
+                gridLines: {
+                    display:false,
+                    color: "#fff",
+                    zeroLineColor: "#fff",
+                    zeroLineWidth: 0,
+                    fontColor: "#323E48"
+                },
+                ticks: {
+                    fontSize:11,
+                    fontColor: "#323E48"
+                },
+
+                stacked: true
+            }]
+        },
+        legend:{
+            display:false
+        },
+        
+    };   
+    
+    var applicationVulnerabilities= document.getElementById("applicationVulnerabilities");
+    var applicationVulnerabilityChart = new Chart(applicationVulnerabilities, {
+        type: 'horizontalBar',
+        data: {
+            datasets: [ {       
+                // Critical Vulnerabilities
+                label: 'Critical',
+                data: [15],
+                backgroundColor: "#400000"
+                },   
+            {
+                // High Vulnerabilities
+                label: 'High',
+                data: [21],
+                backgroundColor: "#C00000"
+            },{
+                // Medium Vulnerabilities
+                label: 'Medium',
+                data: [5],
+                backgroundColor: "#FFA500"
+            },{
+                // Low Vulnerabilities
+                label: 'Low',
+                data: [0],
+                backgroundColor: "#FFFF00"
+            },{
+                // N/A Vulnerabilities
+                label: 'N/A',
+                data: [62],
+                backgroundColor: "#D3D3D3"
+            },
+            ]
+        },
+
+        options: defaultBarChartOptions,
+        
+    });
+
+    applicationVulnerabilityChart.options.tooltips.titleFontSize = 0
+    
+    </script>
+</body>
+</html>
