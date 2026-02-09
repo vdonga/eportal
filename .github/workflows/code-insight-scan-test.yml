@@ -30,16 +30,13 @@ jobs:
           echo "$RESPONSE"
           echo "===================="
           
-          # Pretty print if it's JSON
-          echo "$RESPONSE" | jq '.' || echo "Response is not valid JSON"
-          
           # Try different field names for job ID
           JOB_ID=$(echo "$RESPONSE" | jq -r '.Content // .content // .jobId // .taskId // .id // empty' 2>/dev/null)
           
           if [ -z "$JOB_ID" ] || [ "$JOB_ID" == "null" ]; then
             echo "⚠️ Could not extract job ID from response"
             echo "Trying to extract number from response..."
-            # Try to extract just the number (1231)
+            # Try to extract just the number
             JOB_ID=$(echo "$RESPONSE" | grep -oP '\d+' | head -1)
           fi
           
@@ -114,16 +111,37 @@ jobs:
           echo "Saving results to codeinsight-results.json"
           echo "$RESPONSE" > codeinsight-results.json
           
-          # Extract basic stats (adjust field names based on actual response)
-          TOTAL_COMPONENTS=$(echo "$RESPONSE" | jq '. | length // 0')
+          # Parse the response structure: {projectId, projectName, inventoryItems: [...]}
+          PROJECT_NAME=$(echo "$RESPONSE" | jq -r '.projectName // "Unknown"')
+          echo "Project: ${PROJECT_NAME}"
+          
+          # Count total inventory items
+          TOTAL_COMPONENTS=$(echo "$RESPONSE" | jq '.inventoryItems | length')
           echo "Total components scanned: ${TOTAL_COMPONENTS}"
           
-          # Count vulnerabilities if available
-          TOTAL_VULNS=$(echo "$RESPONSE" | jq '[.[] | .vulnerabilities // [] | length] | add // 0')
-          echo "Total vulnerabilities: ${TOTAL_VULNS}"
+          # Count vulnerabilities by severity
+          CRITICAL=$(echo "$RESPONSE" | jq '[.inventoryItems[].vulnerabilities[] | select(.vulnerabilityCvssV3Severity == "CRITICAL")] | length')
+          HIGH=$(echo "$RESPONSE" | jq '[.inventoryItems[].vulnerabilities[] | select(.vulnerabilityCvssV3Severity == "HIGH")] | length')
+          MEDIUM=$(echo "$RESPONSE" | jq '[.inventoryItems[].vulnerabilities[] | select(.vulnerabilityCvssV3Severity == "MEDIUM")] | length')
+          LOW=$(echo "$RESPONSE" | jq '[.inventoryItems[].vulnerabilities[] | select(.vulnerabilityCvssV3Severity == "LOW")] | length')
           
+          # Total unique vulnerabilities
+          TOTAL_VULNS=$(echo "$RESPONSE" | jq '[.inventoryItems[].vulnerabilities[]] | length')
+          
+          echo "Vulnerabilities by severity:"
+          echo "  Critical: ${CRITICAL}"
+          echo "  High: ${HIGH}"
+          echo "  Medium: ${MEDIUM}"
+          echo "  Low: ${LOW}"
+          echo "  Total: ${TOTAL_VULNS}"
+          
+          # Output for next steps
           echo "total_components=${TOTAL_COMPONENTS}" >> $GITHUB_OUTPUT
           echo "total_vulnerabilities=${TOTAL_VULNS}" >> $GITHUB_OUTPUT
+          echo "critical=${CRITICAL}" >> $GITHUB_OUTPUT
+          echo "high=${HIGH}" >> $GITHUB_OUTPUT
+          echo "medium=${MEDIUM}" >> $GITHUB_OUTPUT
+          echo "low=${LOW}" >> $GITHUB_OUTPUT
       
       - name: Display Summary
         run: |
@@ -132,9 +150,39 @@ jobs:
           echo "- **Project ID:** 75"
           echo "- **Job ID:** ${{ steps.trigger-scan.outputs.job_id }}"
           echo "- **Components Scanned:** ${{ steps.fetch-results.outputs.total_components }}"
-          echo "- **Vulnerabilities Found:** ${{ steps.fetch-results.outputs.total_vulnerabilities }}"
+          echo ""
+          echo "### Vulnerabilities Found"
+          echo "| Severity | Count |"
+          echo "|----------|-------|"
+          echo "| 🔴 Critical | ${{ steps.fetch-results.outputs.critical }} |"
+          echo "| 🟠 High | ${{ steps.fetch-results.outputs.high }} |"
+          echo "| 🟡 Medium | ${{ steps.fetch-results.outputs.medium }} |"
+          echo "| 🟢 Low | ${{ steps.fetch-results.outputs.low }} |"
+          echo "| **Total** | **${{ steps.fetch-results.outputs.total_vulnerabilities }}** |"
           echo ""
           echo "✅ Scan completed successfully!"
+      
+      - name: Check Policy Thresholds
+        env:
+          CRITICAL: ${{ steps.fetch-results.outputs.critical }}
+          HIGH: ${{ steps.fetch-results.outputs.high }}
+        run: |
+          echo "🔒 Checking security policy thresholds..."
+          
+          if [ "$CRITICAL" -gt 0 ]; then
+            echo "❌ Policy violation: ${CRITICAL} critical vulnerabilities found"
+            echo "Critical vulnerabilities must be resolved before merging"
+            exit 1
+          fi
+          
+          if [ "$HIGH" -gt 0 ]; then
+            echo "⚠️ Warning: ${HIGH} high severity vulnerabilities found"
+            echo "Consider resolving high severity issues before merging"
+            # Uncomment the next line to block on high severity
+            # exit 1
+          fi
+          
+          echo "✅ No critical vulnerabilities found - policy check passed"
       
       - name: Upload Results as Artifact
         uses: actions/upload-artifact@v4
