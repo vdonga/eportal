@@ -24,27 +24,28 @@ jobs:
           RESPONSE=$(curl -s -X POST \
             "https://demo.mycodeinsight.com/codeinsight/api/scanResource/projectScan/${PROJECT_ID}" \
             -H "Authorization: Bearer ${CI_TOKEN}" \
-            -H "Content-Type: application/json" \
-            -w "\n%{http_code}")
+            -H "Content-Type: application/json")
           
-          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
-          BODY=$(echo "$RESPONSE" | head -n-1)
+          echo "=== Full Response ==="
+          echo "$RESPONSE"
+          echo "===================="
           
-          echo "HTTP Status: ${HTTP_CODE}"
-          echo "Response Body: ${BODY}"
+          # Pretty print if it's JSON
+          echo "$RESPONSE" | jq '.' || echo "Response is not valid JSON"
           
-          if [ "$HTTP_CODE" -ne 200 ] && [ "$HTTP_CODE" -ne 201 ]; then
-            echo "❌ Failed to trigger scan. HTTP ${HTTP_CODE}"
-            echo "Response: ${BODY}"
-            exit 1
+          # Try different field names for job ID
+          JOB_ID=$(echo "$RESPONSE" | jq -r '.Content // .content // .jobId // .taskId // .id // empty' 2>/dev/null)
+          
+          if [ -z "$JOB_ID" ] || [ "$JOB_ID" == "null" ]; then
+            echo "⚠️ Could not extract job ID from response"
+            echo "Trying to extract number from response..."
+            # Try to extract just the number (1231)
+            JOB_ID=$(echo "$RESPONSE" | grep -oP '\d+' | head -1)
           fi
           
-          # Extract job/task ID from response
-          JOB_ID=$(echo "$BODY" | jq -r '.jobId // .taskId // .id // empty')
-          
           if [ -z "$JOB_ID" ]; then
-            echo "⚠️ Could not extract job ID from response"
-            echo "Full response: ${BODY}"
+            echo "❌ Still could not extract job ID"
+            echo "Full response: ${RESPONSE}"
             exit 1
           fi
           
