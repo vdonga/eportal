@@ -1,0 +1,142 @@
+name: Code Insight Scan Test
+
+on:
+  workflow_dispatch:  # Manual trigger for testing
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sca-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Trigger Code Insight Scan
+        id: trigger-scan
+        env:
+          CI_TOKEN: ${{ secrets.CODE_INSIGHT_TOKEN }}
+          PROJECT_ID: 75
+        run: |
+          echo "🚀 Triggering scan for Project ID: ${PROJECT_ID}"
+          
+          RESPONSE=$(curl -s -X POST \
+            "https://demo.mycodeinsight.com/codeinsight/api/scanResource/projectScan/${PROJECT_ID}" \
+            -H "Authorization: Bearer ${CI_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -w "\n%{http_code}")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          
+          echo "HTTP Status: ${HTTP_CODE}"
+          echo "Response Body: ${BODY}"
+          
+          if [ "$HTTP_CODE" -ne 200 ] && [ "$HTTP_CODE" -ne 201 ]; then
+            echo "❌ Failed to trigger scan. HTTP ${HTTP_CODE}"
+            echo "Response: ${BODY}"
+            exit 1
+          fi
+          
+          # Extract job/task ID from response
+          JOB_ID=$(echo "$BODY" | jq -r '.jobId // .taskId // .id // empty')
+          
+          if [ -z "$JOB_ID" ]; then
+            echo "⚠️ Could not extract job ID from response"
+            echo "Full response: ${BODY}"
+            exit 1
+          fi
+          
+          echo "✅ Scan triggered successfully"
+          echo "Job ID: ${JOB_ID}"
+          echo "job_id=${JOB_ID}" >> $GITHUB_OUTPUT
+      
+      - name: Wait for Scan Completion
+        id: wait-scan
+        env:
+          CI_TOKEN: ${{ secrets.CODE_INSIGHT_TOKEN }}
+          JOB_ID: ${{ steps.trigger-scan.outputs.job_id }}
+        run: |
+          echo "⏳ Waiting for scan to complete (Job ID: ${JOB_ID})"
+          
+          MAX_ATTEMPTS=40  # 40 attempts * 30 seconds = 20 minutes max
+          ATTEMPT=0
+          
+          while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
+            ATTEMPT=$((ATTEMPT + 1))
+            echo "Polling attempt ${ATTEMPT}/${MAX_ATTEMPTS}..."
+            
+            RESPONSE=$(curl -s \
+              "https://demo.mycodeinsight.com/codeinsight/api/jobs/${JOB_ID}" \
+              -H "Authorization: Bearer ${CI_TOKEN}")
+            
+            echo "Response: ${RESPONSE}"
+            
+            # Check for common status field names
+            STATUS=$(echo "$RESPONSE" | jq -r '.status // .state // .jobStatus // empty' | tr '[:upper:]' '[:lower:]')
+            
+            echo "Current status: ${STATUS}"
+            
+            # Check for completion
+            if [[ "$STATUS" == "completed" ]] || [[ "$STATUS" == "success" ]] || [[ "$STATUS" == "finished" ]]; then
+              echo "✅ Scan completed successfully!"
+              exit 0
+            fi
+            
+            # Check for failure
+            if [[ "$STATUS" == "failed" ]] || [[ "$STATUS" == "error" ]]; then
+              echo "❌ Scan failed"
+              echo "Full response: ${RESPONSE}"
+              exit 1
+            fi
+            
+            # Still running, wait and retry
+            sleep 30
+          done
+          
+          echo "⏱️ Scan timed out after ${MAX_ATTEMPTS} attempts"
+          exit 1
+      
+      - name: Fetch Scan Results
+        id: fetch-results
+        env:
+          CI_TOKEN: ${{ secrets.CODE_INSIGHT_TOKEN }}
+          PROJECT_ID: 75
+        run: |
+          echo "📊 Fetching scan results..."
+          
+          RESPONSE=$(curl -s \
+            "https://demo.mycodeinsight.com/codeinsight/api/project/inventory/${PROJECT_ID}" \
+            -H "Authorization: Bearer ${CI_TOKEN}")
+          
+          echo "Saving results to codeinsight-results.json"
+          echo "$RESPONSE" > codeinsight-results.json
+          
+          # Extract basic stats (adjust field names based on actual response)
+          TOTAL_COMPONENTS=$(echo "$RESPONSE" | jq '. | length // 0')
+          echo "Total components scanned: ${TOTAL_COMPONENTS}"
+          
+          # Count vulnerabilities if available
+          TOTAL_VULNS=$(echo "$RESPONSE" | jq '[.[] | .vulnerabilities // [] | length] | add // 0')
+          echo "Total vulnerabilities: ${TOTAL_VULNS}"
+          
+          echo "total_components=${TOTAL_COMPONENTS}" >> $GITHUB_OUTPUT
+          echo "total_vulnerabilities=${TOTAL_VULNS}" >> $GITHUB_OUTPUT
+      
+      - name: Display Summary
+        run: |
+          echo "## 🔍 Code Insight Scan Summary"
+          echo ""
+          echo "- **Project ID:** 75"
+          echo "- **Job ID:** ${{ steps.trigger-scan.outputs.job_id }}"
+          echo "- **Components Scanned:** ${{ steps.fetch-results.outputs.total_components }}"
+          echo "- **Vulnerabilities Found:** ${{ steps.fetch-results.outputs.total_vulnerabilities }}"
+          echo ""
+          echo "✅ Scan completed successfully!"
+      
+      - name: Upload Results as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: codeinsight-scan-results
+          path: codeinsight-results.json
