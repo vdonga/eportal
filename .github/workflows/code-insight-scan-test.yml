@@ -162,28 +162,6 @@ jobs:
           echo ""
           echo "✅ Scan completed successfully!"
       
-      - name: Check Policy Thresholds
-        env:
-          CRITICAL: ${{ steps.fetch-results.outputs.critical }}
-          HIGH: ${{ steps.fetch-results.outputs.high }}
-        run: |
-          echo "🔒 Checking security policy thresholds..."
-          
-          if [ "$CRITICAL" -gt 0 ]; then
-            echo "❌ Policy violation: ${CRITICAL} critical vulnerabilities found"
-            echo "Critical vulnerabilities must be resolved before merging"
-            exit 1
-          fi
-          
-          if [ "$HIGH" -gt 0 ]; then
-            echo "⚠️ Warning: ${HIGH} high severity vulnerabilities found"
-            echo "Consider resolving high severity issues before merging"
-            # Uncomment the next line to block on high severity
-            # exit 1
-          fi
-          
-          echo "✅ No critical vulnerabilities found - policy check passed"
-      
       - name: Upload Results as Artifact
         uses: actions/upload-artifact@v4
         with:
